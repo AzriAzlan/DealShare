@@ -37,6 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Image(
+                      height: 120,
+                      image: AssetImage('assets/logo.png'),
+                    ),
+
+                    SizedBox(height: 30),
+
                     Text(
                       "WELCOME TO REWARDS4U",
                       style:
@@ -46,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: SizedBox(
-                        width: 300,
+                        width: 600,
                         child: TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
@@ -64,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 4),
                       child: SizedBox(
-                        width: 300,
+                        width: 600,
                         child: TextField(
                           obscureText: true,
                           controller: _passwordController,
@@ -83,31 +90,102 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                      width: 200,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeScreen()),
-                          );
-                        },
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(color: Colors.black, fontSize: 25),
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    side: BorderSide(color: Colors.grey)))),
+
+                    GestureDetector(
+                      child: Text(
+                        "Forgot Password ?",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Reset()),
                       ),
                     ),
+
                     SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15,0,15,0),
+                      child: SizedBox(
+                        height: 55,
+                        width: 600,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                          },
+                          child: Text(
+                            "SIGN IN",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.blue),
+                              ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 20),
+
+                    Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: Divider(color: Colors.grey,)
+                          ),
+
+                          Padding(padding: EdgeInsets.all(15),child: Text("OR",style: TextStyle(fontSize: 20),),),
+
+                          Expanded(
+                              child: Divider(color: Colors.grey,)
+                          ),
+                        ]
+                    ),
+
+                    SizedBox(height: 20),
+
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      child: SizedBox(
+                        height: 55,
+                        width: 600,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image(
+                                width: 100,
+                                image: AssetImage('assets/facebook.png'),
+                              ),
+                              Text(
+                                "SIGN IN WITH FACEBOOK",
+                                style: TextStyle(color: Colors.white, fontSize: 15),
+                              ),
+                            ],
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(Colors.blue[900]),
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+
+                    SizedBox(
+                      height: 40,
+                    ),
+
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,28 +206,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Forgout your password? "),
-                        Builder(
-                          builder: (context) => GestureDetector(
-                            child: Text(
-                              "Click here",
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Reset()),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+
+
+
                   ],
                 ),
               ),

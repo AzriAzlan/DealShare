@@ -1,7 +1,10 @@
+
 import 'package:dealshare/screens/deal_registration_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
+import 'package:dealshare/widgets/deals.dart';
+import 'package:dealshare/widgets/hot_deals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,10 +33,53 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: SizedBox(
-          child: DealTile(),
+         child: SingleChildScrollView(
+           child: SizedBox(
+             height: 1000,
+             child: Column(
+          children: [
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.blueAccent,Colors.cyan]
+                    )
+                ),
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 15),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontSize: 20),),),
+                    SizedBox(
+                      child: HotDeals(),
+                      //DealTile(),
+                    ),
+                  ],
+                ),
+              ),
+
+              Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Divider(color: Colors.grey,)
+                    ),
+
+                    Padding(padding: EdgeInsets.all(15),child: Text("DEALS",style: TextStyle(fontSize: 20),),),
+
+                    Expanded(
+                        child: Divider(color: Colors.grey,)
+                    ),
+                  ]
+              ),
+
+              Expanded(
+                child: Deals(),
+                //DealTile(),
+              ),
+
+          ],
         ),
-      ),
+           ),
+      )),
 
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

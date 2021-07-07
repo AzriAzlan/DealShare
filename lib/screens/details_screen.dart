@@ -34,22 +34,18 @@ class DetailsPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:[
-              RatingBar.builder(
-                initialRating: 0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (
-                  context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    width: 150,
+                    image: AssetImage('assets/5star.png'),
+                  ),
+                  Text("45 Ratings"),
+                ],
               ),
+
             ],
           ),
           Container(
@@ -68,43 +64,59 @@ class DetailsPage extends StatelessWidget {
             textScaleFactor: 1.15,
           ),
           ),
-          TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-             ),
-            onPressed: () {
 
-              showDialog(
-                  context: context,
-                  builder: (_) => AssetGiffyDialog(
-                    image: Image(
-                      image: AssetImage('assets/nikeLogo.png'),
-                    ),
-                    title: Text(
-                      'Promo code : ABC12345',
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    description: Text(
-                      'Valid until 15/5/2021 .You may redeem your promo code at the online Nike store or any physical store',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(),
-                    ),
-                    entryAnimation: EntryAnimation.BOTTOM_RIGHT,
-                    onOkButtonPressed: (){
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
+          Text(
+            'ABC12345',
+            textScaleFactor: 1.7,
+          ),
 
 
-                    },
-                  ));
-            },
-            child: Text('Redeem Voucher'),
+          SizedBox(height:20),
+          Text("Valid until 15/5/2021"),
+          SizedBox(height: 20,),
+          SizedBox(
+            width: 600,
+            height: 40,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+               ),
+              onPressed: () {
+
+                showDialog(
+                    context: context,
+                    builder: (_) => AssetGiffyDialog(
+                      image: Image(
+                        image: AssetImage('assets/nikeLogo.png'),
+                      ),
+                      title: Text(
+                        'Saved this promo code!',
+                        style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      description: Text(
+                        'Valid until 15/5/2021 .You may view this saved promo in your profile section.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                      ),
+                      entryAnimation: EntryAnimation.BOTTOM_RIGHT,
+                      onOkButtonPressed: (){
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+
+
+                      },
+                    ));
+              },
+              child: Text('SAVE THIS PROMO CODE'),
+            ),
           ),
         ],
       ),

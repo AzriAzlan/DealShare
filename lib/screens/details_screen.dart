@@ -1,4 +1,5 @@
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/images.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
@@ -25,10 +26,9 @@ class DetailsPage extends StatelessWidget {
           Column( 
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            Image.asset(
-              'assets/nike_logo.jpeg',
-              scale: 10,
-            )
+                Image.asset(
+                  Images.nikeLogo,
+                ),
             ],
           ),
           Column(
@@ -38,9 +38,9 @@ class DetailsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(
+                  Image.asset(
+                    Images.fiveStar,
                     width: 150,
-                    image: AssetImage('assets/5star.png'),
                   ),
                   Text("45 Ratings"),
                 ],
@@ -87,8 +87,8 @@ class DetailsPage extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (_) => AssetGiffyDialog(
-                      image: Image(
-                        image: AssetImage('assets/nikeLogo.png'),
+                      image: Image.asset(
+                        Images.nikeLogo,
                       ),
                       title: Text(
                         'Saved this promo code!',

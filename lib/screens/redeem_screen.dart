@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/size_config.dart';
@@ -34,7 +35,6 @@ class _RedeempageState extends State<Redeempage> {
   final int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,8 +43,6 @@ class _RedeempageState extends State<Redeempage> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        height: SizeConfig.safeBlockVertical*100,
-        width: SizeConfig.safeBlockHorizontal*100,
         child: Column(
           children: [
             SizedBox(
@@ -103,8 +101,8 @@ class _RedeempageState extends State<Redeempage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Image(
-                        image: AssetImage('assets/nikeLogo.png'),
+                      Image.asset(
+                        Images.nikeLogo,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,8 +153,8 @@ class _RedeempageState extends State<Redeempage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image(
-                          image: AssetImage('assets/touchgo.png'),
+                        Image.asset(
+                          Images.touchGo,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,8 +204,8 @@ class _RedeempageState extends State<Redeempage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image(
-                          image: AssetImage('assets/shopeepay.jpg'),
+                        Image.asset(
+                          Images.shopee,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

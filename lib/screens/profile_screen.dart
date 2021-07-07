@@ -9,13 +9,9 @@ class ProfilePage extends StatelessWidget {
   int _selectedIndex =2;
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-
 
     return Scaffold(
       body: Container(
-        height: SizeConfig.safeBlockVertical*100,
-        width: SizeConfig.safeBlockHorizontal*100,
         child: SingleChildScrollView(
           child: SizedBox(
             child: Column(
@@ -30,7 +26,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: Container(
                       width: double.infinity,
-                      height: 350.0,
+                      height: 28*SizeConfig.heightMultiplier,
                       child: Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,28 +36,28 @@ class ProfilePage extends StatelessWidget {
                               backgroundImage: AssetImage(
                                'assets/profilepicture.png',
                               ),
-                              radius: 50.0,
+                              radius: 8*SizeConfig.widthMultiplier,
                             ),
                             SizedBox(
-                              height: 10.0,
+                              height: 1*SizeConfig.heightMultiplier,
                             ),
                             Text(
                               "Azri D",
                               style: TextStyle(
-                                fontSize: 22.0,
+                                fontSize: 1.7*SizeConfig.heightMultiplier,
                                 color: Colors.white,
                               ),
                             ),
                             SizedBox(
-                              height: 10.0,
+                              height: 0.8*SizeConfig.heightMultiplier,
                             ),
                             Card(
-                              margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 5.0),
+                              margin: EdgeInsets.symmetric(horizontal: 2.7*SizeConfig.widthMultiplier,vertical: 0.7*SizeConfig.heightMultiplier),
                               clipBehavior: Clip.antiAlias,
                               color: Colors.white,
                               elevation: 5.0,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 22.0),
+                                padding: EdgeInsets.symmetric(horizontal: 1*SizeConfig.widthMultiplier,vertical: 1.7*SizeConfig.heightMultiplier),
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(

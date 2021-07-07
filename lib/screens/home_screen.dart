@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -42,13 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-         child: SingleChildScrollView(
-           child: SizedBox(
-             height: SizeConfig.safeBlockVertical*100+600,
-             width: SizeConfig.safeBlockHorizontal*100,
              child: Column(
           children: [
               Container(
+                height: 25*SizeConfig.heightMultiplier,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -58,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.only(top: 15),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontSize: 20),),),
+                    Padding(padding: EdgeInsets.only(top: 1.2*SizeConfig.heightMultiplier),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontSize: 1.6*SizeConfig.heightMultiplier),),),
                     SizedBox(
                       child: HotDeals(),
                       //DealTile(),
@@ -73,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Divider(color: Colors.grey,)
                     ),
 
-                    Padding(padding: EdgeInsets.all(15),child: Text("DEALS",style: TextStyle(fontSize: 20),),),
+                    Padding(padding: EdgeInsets.all(1.2*SizeConfig.heightMultiplier),child: Text("DEALS",style: TextStyle(fontSize: 1.6*SizeConfig.heightMultiplier),),),
 
                     Expanded(
                         child: Divider(color: Colors.grey,)
@@ -82,14 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               Expanded(
-                child: Deals(),
+                    child: Deals()
                 //DealTile(),
               ),
 
           ],
         ),
-           ),
-      )),
+
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

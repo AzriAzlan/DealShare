@@ -2,6 +2,7 @@
 import 'package:dealshare/screens/deal_registration_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
+import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:dealshare/widgets/deals.dart';
 import 'package:dealshare/widgets/hot_deals.dart';
@@ -9,10 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final int _selectedIndex=0;
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -35,7 +44,8 @@ class HomeScreen extends StatelessWidget {
       body: Container(
          child: SingleChildScrollView(
            child: SizedBox(
-             height: 1000,
+             height: SizeConfig.safeBlockVertical*100+600,
+             width: SizeConfig.safeBlockHorizontal*100,
              child: Column(
           children: [
               Container(

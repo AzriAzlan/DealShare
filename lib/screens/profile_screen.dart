@@ -2,16 +2,20 @@ import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/login_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
+import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
   int _selectedIndex =2;
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
 
     return Scaffold(
       body: Container(
-        height: double.infinity,
+        height: SizeConfig.safeBlockVertical*100,
+        width: SizeConfig.safeBlockHorizontal*100,
         child: SingleChildScrollView(
           child: SizedBox(
             child: Column(
@@ -68,7 +72,7 @@ class ProfilePage extends StatelessWidget {
                                             "Member Since",
                                             style: TextStyle(
                                               color: Colors.blueAccent,
-                                              fontSize: 22.0,
+                                              //fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -78,7 +82,7 @@ class ProfilePage extends StatelessWidget {
                                           Text(
                                             "18/8/2020",
                                             style: TextStyle(
-                                              fontSize: 20.0,
+                                              //fontSize: 20.0,
                                               color: Colors.cyan,
                                             ),
                                           )
@@ -93,7 +97,7 @@ class ProfilePage extends StatelessWidget {
                                             "Current Points",
                                             style: TextStyle(
                                               color: Colors.blueAccent,
-                                              fontSize: 22.0,
+                                              //fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -103,7 +107,7 @@ class ProfilePage extends StatelessWidget {
                                           Text(
                                             "1006",
                                             style: TextStyle(
-                                              fontSize: 20.0,
+                                              //fontSize: 20.0,
                                               color: Colors.cyan,
                                             ),
                                           )
@@ -118,7 +122,7 @@ class ProfilePage extends StatelessWidget {
                                             "Class",
                                             style: TextStyle(
                                               color: Colors.blueAccent,
-                                              fontSize: 22.0,
+                                              //fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -128,7 +132,7 @@ class ProfilePage extends StatelessWidget {
                                           Text(
                                             "Expert sharer",
                                             style: TextStyle(
-                                              fontSize: 20.0,
+                                              //fontSize: 20.0,
                                               color: Colors.cyan,
                                             ),
                                           )

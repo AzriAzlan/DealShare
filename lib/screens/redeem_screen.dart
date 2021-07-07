@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
+import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 
 class Redeempage extends StatefulWidget {
@@ -33,204 +34,210 @@ class _RedeempageState extends State<Redeempage> {
   final int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Redeem Points'),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 25,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Currently, you have',
-              style: TextStyle(fontSize: 20),
+      body: Container(
+        height: SizeConfig.safeBlockVertical*100,
+        width: SizeConfig.safeBlockHorizontal*100,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 25,
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: FractionalOffset(0.3, 0),
-                  child: Text(
-                    '1006',
-                    style: TextStyle(fontSize: 40),
-                  ),
-                ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Currently, you have',
+                style: TextStyle(fontSize: 20),
               ),
-              Expanded(
-                child: Align(
-                  alignment: FractionalOffset(0.5, -0.2),
-                  child: Image.network(
-                    'https://i.gyazo.com/a5f39bfb70c6b7e840b0b167e415d7f0.png',
-                    height: 80,
-                    width: 80,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-                redeem();
-            },
-            child: Container(
-              height: 100,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withAlpha(100), blurRadius: 10.0),
-                  ]),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Image(
-                      image: AssetImage('assets/nikeLogo.png'),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset(0.3, 0),
+                    child: Text(
+                      '1006',
+                      style: TextStyle(fontSize: 40),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset(0.5, -0.2),
+                    child: Image.network(
+                      'https://i.gyazo.com/a5f39bfb70c6b7e840b0b167e415d7f0.png',
+                      height: 80,
+                      width: 80,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                  redeem();
+              },
+              child: Container(
+                height: 100,
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withAlpha(100), blurRadius: 10.0),
+                    ]),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Image(
+                        image: AssetImage('assets/nikeLogo.png'),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            'Buy 1 free 1!',
+                            style: const TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Valid til 15/5/2021',
+                            style:
+                                const TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '-500',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            GestureDetector(
+              onTap: () {
+                redeem();
+              },
+              child: Container(
+                  height: 100,
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withAlpha(100), blurRadius: 10.0),
+                      ]),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        SizedBox(
-                          height: 25,
+                        Image(
+                          image: AssetImage('assets/touchgo.png'),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Text(
+                              'Redeem RM5 touch n go',
+                              style: const TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'valid till 21/5/2021',
+                              style:
+                                  const TextStyle(fontSize: 12, color: Colors.grey),
+                            ),
+                          ],
                         ),
                         Text(
-                          'Buy 1 free 1!',
+                          '-500',
                           style: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Valid til 15/5/2021',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    Text(
-                      '-500',
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
             ),
-          ),
 
-          GestureDetector(
-            onTap: () {
-              redeem();
-            },
-            child: Container(
-                height: 100,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withAlpha(100), blurRadius: 10.0),
-                    ]),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage('assets/touchgo.png'),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Text(
-                            'Redeem RM5 touch n go',
-                            style: const TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'valid till 21/5/2021',
-                            style:
-                                const TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '-500',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                )),
-          ),
-
-          GestureDetector(
-            onTap: () {
-              redeem();
-            },
-            child: Container(
-                height: 100,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withAlpha(100), blurRadius: 10.0),
-                    ]),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage('assets/shopeepay.jpg'),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Text(
-                            'Redeem RM5 shopee pay',
-                            style: const TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Valid till 25/5/2021',
-                            style:
-                                const TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '-500',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                )),
-          )
-        ],
+            GestureDetector(
+              onTap: () {
+                redeem();
+              },
+              child: Container(
+                  height: 100,
+                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withAlpha(100), blurRadius: 10.0),
+                      ]),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Image(
+                          image: AssetImage('assets/shopeepay.jpg'),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Text(
+                              'Redeem RM5 shopee pay',
+                              style: const TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'Valid till 25/5/2021',
+                              style:
+                                  const TextStyle(fontSize: 12, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '-500',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  )),
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

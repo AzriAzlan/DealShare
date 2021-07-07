@@ -12,318 +12,228 @@ class Deals extends StatelessWidget {
     );
 
     return GridView.count(
-          primary: false,
-          padding: EdgeInsets.all(1.6*SizeConfig.heightMultiplier),
-          crossAxisSpacing: 1.2*SizeConfig.widthMultiplier,
-          mainAxisSpacing: 1.2*SizeConfig.widthMultiplier,
-          crossAxisCount: 2,
+      primary: false,
+      padding: EdgeInsets.all(1.6 * SizeConfig.heightMultiplier),
+      crossAxisSpacing: 1.2 * SizeConfig.widthMultiplier,
+      mainAxisSpacing: 1.2 * SizeConfig.widthMultiplier,
+      crossAxisCount: 2,
+      children: <Widget>[
 
-          children: <Widget>[
 
-        Padding(
-              padding: EdgeInsets.all(0.6*SizeConfig.heightMultiplier),
-              child: Card(
-                shape: border,
-                child: Column(children: <Widget>[
-                  Image.asset(
-                    Images.nikeLogo,
-                    width: 17*SizeConfig.widthMultiplier,
-                  ),
-                  Text("Nike"),
-                  Row(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailsPage()));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
+            child: Card(
+              shape: border,
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Images.nikeLogo,
+                  width: 17 * SizeConfig.widthMultiplier,
+                ),
+                Text("Nike"),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17*SizeConfig.widthMultiplier,
-                      ),
-                      FittedBox(child: Text("45 Ratings")),
-                    ],
-                  ),
-                  Text(
-                    "50% off from latest shoes!",
-                    style:
-                    Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(height: 1.6*SizeConfig.heightMultiplier),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width:11*SizeConfig.widthMultiplier,
-                        height: 3.2*SizeConfig.heightMultiplier,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => DetailsPage()));
-                          },
-                          child: Text("VIEW"),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2*SizeConfig.widthMultiplier,),
-                      GestureDetector(
-                        child: Icon(Icons.share),
-                        onTap: () {
-                          Share.share('check out my website https://example.com');
-                        },
-                      ),
-                    ],
-                  ),
-
-                ]),
-                //color: Colors.teal[100],
-              ),
+                  children: [
+                    Image.asset(
+                      Images.fiveStar,
+                      width: 17 * SizeConfig.widthMultiplier,
+                    ),
+                    FittedBox(child: Text("45 Ratings")),
+                  ],
+                ),
+                Text(
+                  "50% off from latest shoes!",
+                  style: Theme.of(context).textTheme.title,
+                ),
+                SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                GestureDetector(
+                  child: Icon(Icons.share),
+                  onTap: () {
+                    Share.share('check out my website https://example.com');
+                  },
+                ),
+              ]),
+              //color: Colors.teal[100],
             ),
+          ),
+        ),
 
 
-
-            Padding(
-              padding: EdgeInsets.all(0.6*SizeConfig.heightMultiplier),
-              child: Card(
-                shape: border,
-                child: Column(children: <Widget>[
-                  Image.asset(
-                    Images.touchGo,
-                    width: 17*SizeConfig.widthMultiplier,
-                  ),
-                  Text("Nike"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17*SizeConfig.widthMultiplier,
-                      ),
-                      FittedBox(child: Text("45 Ratings")),
-                    ],
-                  ),
-                  Text(
-                    "50% off from latest shoes!",
-                    style:
-                    Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(height: 1.6*SizeConfig.heightMultiplier),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width:11*SizeConfig.widthMultiplier,
-                        height: 3.2*SizeConfig.heightMultiplier,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => DetailsPage()));
-                          },
-                          child: Text("VIEW"),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2*SizeConfig.widthMultiplier,),
-                      GestureDetector(
-                        child: Icon(Icons.share),
-                        onTap: () {
-                          Share.share('check out my website https://example.com');
-                        },
-                      ),
-                    ],
-                  ),
-
-                ]),
-                //color: Colors.teal[100],
-              ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailsPage()));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
+            child: Card(
+              shape: border,
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Images.touchGo,
+                  width: 17 * SizeConfig.widthMultiplier,
+                ),
+                Text("Nike"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Images.fiveStar,
+                      width: 17 * SizeConfig.widthMultiplier,
+                    ),
+                    FittedBox(child: Text("45 Ratings")),
+                  ],
+                ),
+                Text(
+                  "50% off from latest shoes!",
+                  style: Theme.of(context).textTheme.title,
+                ),
+                SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                GestureDetector(
+                  child: Icon(Icons.share),
+                  onTap: () {
+                    Share.share('check out my website https://example.com');
+                  },
+                ),
+              ]),
+              //color: Colors.teal[100],
             ),
+          ),
+        ),
 
-            Padding(
-              padding: EdgeInsets.all(0.6*SizeConfig.heightMultiplier),
-              child: Card(
-                shape: border,
-                child: Column(children: <Widget>[
-                  Image.asset(
-                    Images.starbucks,
-                    width: 17*SizeConfig.widthMultiplier,
-                  ),
-                  Text("Nike"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17*SizeConfig.widthMultiplier,
-                      ),
-                      FittedBox(child: Text("45 Ratings")),
-                    ],
-                  ),
-                  Text(
-                    "50% off from latest shoes!",
-                    style:
-                    Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(height: 1.6*SizeConfig.heightMultiplier),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width:11*SizeConfig.widthMultiplier,
-                        height: 3.2*SizeConfig.heightMultiplier,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => DetailsPage()));
-                          },
-                          child: Text("VIEW"),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2*SizeConfig.widthMultiplier,),
-                      GestureDetector(
-                        child: Icon(Icons.share),
-                        onTap: () {
-                          Share.share('check out my website https://example.com');
-                        },
-                      ),
-                    ],
-                  ),
-
-                ]),
-                //color: Colors.teal[100],
-              ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailsPage()));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
+            child: Card(
+              shape: border,
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Images.starbucks,
+                  width: 17 * SizeConfig.widthMultiplier,
+                ),
+                Text("Nike"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Images.fiveStar,
+                      width: 17 * SizeConfig.widthMultiplier,
+                    ),
+                    FittedBox(child: Text("45 Ratings")),
+                  ],
+                ),
+                Text(
+                  "50% off from latest shoes!",
+                  style: Theme.of(context).textTheme.title,
+                ),
+                SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                GestureDetector(
+                  child: Icon(Icons.share),
+                  onTap: () {
+                    Share.share('check out my website https://example.com');
+                  },
+                ),
+              ]),
+              //color: Colors.teal[100],
             ),
+          ),
+        ),
 
 
-            Padding(
-              padding: EdgeInsets.all(0.6*SizeConfig.heightMultiplier),
-              child: Card(
-                shape: border,
-                child: Column(children: <Widget>[
-                  Image.asset(
-                    Images.mcdonalds,
-                    width: 17*SizeConfig.widthMultiplier,
-                  ),
-                  Text("Nike"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17*SizeConfig.widthMultiplier,
-                      ),
-                      FittedBox(child: Text("45 Ratings")),
-                    ],
-                  ),
-                  Text(
-                    "50% off from latest shoes!",
-                    style:
-                    Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(height: 1.6*SizeConfig.heightMultiplier),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width:11*SizeConfig.widthMultiplier,
-                        height: 3.2*SizeConfig.heightMultiplier,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => DetailsPage()));
-                          },
-                          child: Text("VIEW"),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2*SizeConfig.widthMultiplier,),
-                      GestureDetector(
-                        child: Icon(Icons.share),
-                        onTap: () {
-                          Share.share('check out my website https://example.com');
-                        },
-                      ),
-                    ],
-                  ),
-
-                ]),
-                //color: Colors.teal[100],
-              ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailsPage()));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
+            child: Card(
+              shape: border,
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Images.mcdonalds,
+                  width: 17 * SizeConfig.widthMultiplier,
+                ),
+                Text("Nike"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Images.fiveStar,
+                      width: 17 * SizeConfig.widthMultiplier,
+                    ),
+                    FittedBox(child: Text("45 Ratings")),
+                  ],
+                ),
+                Text(
+                  "50% off from latest shoes!",
+                  style: Theme.of(context).textTheme.title,
+                ),
+                SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                GestureDetector(
+                  child: Icon(Icons.share),
+                  onTap: () {
+                    Share.share('check out my website https://example.com');
+                  },
+                ),
+              ]),
+              //color: Colors.teal[100],
             ),
+          ),
+        ),
 
-            Padding(
-              padding: EdgeInsets.all(0.6*SizeConfig.heightMultiplier),
-              child: Card(
-                shape: border,
-                child: Column(children: <Widget>[
-                  Image.asset(
-                    Images.nikeLogo,
-                    width: 17*SizeConfig.widthMultiplier,
-                  ),
-                  Text("Nike"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17*SizeConfig.widthMultiplier,
-                      ),
-                      FittedBox(child: Text("45 Ratings")),
-                    ],
-                  ),
-                  Text(
-                    "50% off from latest shoes!",
-                    style:
-                    Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(height: 1.6*SizeConfig.heightMultiplier),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width:11*SizeConfig.widthMultiplier,
-                        height: 3.2*SizeConfig.heightMultiplier,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => DetailsPage()));
-                          },
-                          child: Text("VIEW"),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 2*SizeConfig.widthMultiplier,),
-                      GestureDetector(
-                        child: Icon(Icons.share),
-                        onTap: () {
-                          Share.share('check out my website https://example.com');
-                        },
-                      ),
-                    ],
-                  ),
-
-                ]),
-                //color: Colors.teal[100],
-              ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DetailsPage()));
+          },
+          child: Padding(
+            padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
+            child: Card(
+              shape: border,
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Images.nikeLogo,
+                  width: 17 * SizeConfig.widthMultiplier,
+                ),
+                Text("Nike"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Images.fiveStar,
+                      width: 17 * SizeConfig.widthMultiplier,
+                    ),
+                    FittedBox(child: Text("45 Ratings")),
+                  ],
+                ),
+                Text(
+                  "50% off from latest shoes!",
+                  style: Theme.of(context).textTheme.title,
+                ),
+                SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                GestureDetector(
+                  child: Icon(Icons.share),
+                  onTap: () {
+                    Share.share('check out my website https://example.com');
+                  },
+                ),
+              ]),
+              //color: Colors.teal[100],
             ),
-
-          ],
-        );
+          ),
+        ),
+      ],
+    );
   }
 }

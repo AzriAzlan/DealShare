@@ -68,12 +68,11 @@ class ProfilePage extends StatelessWidget {
                                             "Member Since",
                                             style: TextStyle(
                                               color: Colors.blueAccent,
-                                              //fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 5.0,
+                                            height: 0.4*SizeConfig.heightMultiplier,
                                           ),
                                           Text(
                                             "18/8/2020",
@@ -98,7 +97,7 @@ class ProfilePage extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 5.0,
+                                            height: 0.4*SizeConfig.heightMultiplier,
                                           ),
                                           Text(
                                             "1006",
@@ -123,7 +122,7 @@ class ProfilePage extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 5.0,
+                                            height: 0.4*SizeConfig.heightMultiplier,
                                           ),
                                           Text(
                                             "Expert sharer",
@@ -152,14 +151,19 @@ class ProfilePage extends StatelessWidget {
                           child: Divider(color: Colors.grey,)
                       ),
 
-                      Padding(padding: EdgeInsets.all(15),child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SavedDeals()),
-                            );
-                          },
-                          child: Text(" VIEW SAVED DEALS",style: TextStyle(fontSize: 15),)),),
+                      Padding(padding: EdgeInsets.all(1.2*SizeConfig.heightMultiplier),
+                        child: SizedBox(
+                          width: 34*SizeConfig.widthMultiplier,
+                          height: 4*SizeConfig.heightMultiplier,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SavedDeals()),
+                              );
+                            },
+                            child: Text(" VIEW SAVED DEALS",style: TextStyle(fontSize: 1.2*SizeConfig.heightMultiplier),)),
+                        ),),
 
                       Expanded(
                           child: Divider(color: Colors.grey,)
@@ -170,7 +174,7 @@ class ProfilePage extends StatelessWidget {
 
 
                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(vertical: 2.4*SizeConfig.heightMultiplier,horizontal: 2.2*SizeConfig.widthMultiplier),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,16 +184,16 @@ class ProfilePage extends StatelessWidget {
                                 style: TextStyle(
                                     color: Colors.blueAccent,
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 28.0
+                                    fontSize: 2.2*SizeConfig.heightMultiplier,
                                 ),
                               ),
                               SizedBox(
-                                height: 10.0,
+                                height: 0.8*SizeConfig.heightMultiplier,
                               ),
 
                               Container(
-                                  height: 100,
-                                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  height: 8*SizeConfig.heightMultiplier,
+                                  margin: EdgeInsets.symmetric(horizontal: 2.5*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                                       color: Colors.white,
@@ -199,15 +203,15 @@ class ProfilePage extends StatelessWidget {
                                       ]),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                                     EdgeInsets.symmetric(horizontal: 2.7*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         CircleAvatar(
-                                          radius: 20.0,
+                                          radius: 2.7*SizeConfig.widthMultiplier,
                                           backgroundColor: Colors.white,
                                           child: CircleAvatar(
-                                            radius: 20.0,
+                                            radius: 2.7*SizeConfig.widthMultiplier,
                                             backgroundColor: Colors.white,
                                             child: Image(
                                               image: AssetImage('assets/nikeLogo.png'),
@@ -218,24 +222,24 @@ class ProfilePage extends StatelessWidget {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             SizedBox(
-                                              height: 25,
+                                              height: 2*SizeConfig.heightMultiplier,
                                             ),
                                             Text(
                                               '50% off from latest shoes',
-                                              style: const TextStyle(
-                                                  fontSize: 13, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 1*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               'Date received - 24/7/2021',
                                               style:
-                                              const TextStyle(fontSize: 12, color: Colors.grey),
+                                              TextStyle(fontSize: 1*SizeConfig.textMultiplier, color: Colors.grey),
                                             ),
                                           ],
                                         ),
                                         Text(
                                           '+5',
-                                          style: const TextStyle(
-                                              fontSize: 20, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 1.6*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                         )
                                       ],
                                     ),
@@ -243,8 +247,8 @@ class ProfilePage extends StatelessWidget {
 
 
                               Container(
-                                  height: 100,
-                                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  height: 8*SizeConfig.heightMultiplier,
+                                  margin: EdgeInsets.symmetric(horizontal: 2.5*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                                       color: Colors.white,
@@ -254,47 +258,52 @@ class ProfilePage extends StatelessWidget {
                                       ]),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                                    EdgeInsets.symmetric(horizontal: 2.7*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         CircleAvatar(
-                                          radius: 20.0,
+                                          radius: 2.7*SizeConfig.widthMultiplier,
                                           backgroundColor: Colors.white,
-                                          child: Image(
-                                            image: AssetImage('assets/nikeLogo.png'),
+                                          child: CircleAvatar(
+                                            radius: 2.7*SizeConfig.widthMultiplier,
+                                            backgroundColor: Colors.white,
+                                            child: Image(
+                                              image: AssetImage('assets/nikeLogo.png'),
+                                            ),
                                           ),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             SizedBox(
-                                              height: 25,
+                                              height: 2*SizeConfig.heightMultiplier,
                                             ),
                                             Text(
                                               '50% off from latest shoes',
-                                              style: const TextStyle(
-                                                  fontSize: 13, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 1*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               'Date received - 24/7/2021',
                                               style:
-                                              const TextStyle(fontSize: 12, color: Colors.grey),
+                                              TextStyle(fontSize: 1*SizeConfig.textMultiplier, color: Colors.grey),
                                             ),
                                           ],
                                         ),
                                         Text(
                                           '+2',
-                                          style: const TextStyle(
-                                              fontSize: 20, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 1.6*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                         )
                                       ],
                                     ),
                                   )),
 
+
                               Container(
-                                  height: 100,
-                                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  height: 8*SizeConfig.heightMultiplier,
+                                  margin: EdgeInsets.symmetric(horizontal: 2.5*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                                       color: Colors.white,
@@ -304,59 +313,68 @@ class ProfilePage extends StatelessWidget {
                                       ]),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                                    EdgeInsets.symmetric(horizontal: 2.7*SizeConfig.widthMultiplier, vertical: 0.8*SizeConfig.heightMultiplier),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         CircleAvatar(
-                                          radius: 20.0,
+                                          radius: 2.7*SizeConfig.widthMultiplier,
                                           backgroundColor: Colors.white,
-                                          child: Image(
-                                            image: AssetImage('assets/nikeLogo.png'),
+                                          child: CircleAvatar(
+                                            radius: 2.7*SizeConfig.widthMultiplier,
+                                            backgroundColor: Colors.white,
+                                            child: Image(
+                                              image: AssetImage('assets/nikeLogo.png'),
+                                            ),
                                           ),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             SizedBox(
-                                              height: 25,
+                                              height: 2*SizeConfig.heightMultiplier,
                                             ),
                                             Text(
                                               '50% off from latest shoes',
-                                              style: const TextStyle(
-                                                  fontSize: 13, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 1*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               'Date received - 24/7/2021',
                                               style:
-                                              const TextStyle(fontSize: 12, color: Colors.grey),
+                                              TextStyle(fontSize: 1*SizeConfig.textMultiplier, color: Colors.grey),
                                             ),
                                           ],
                                         ),
                                         Text(
                                           '+1',
-                                          style: const TextStyle(
-                                              fontSize: 20, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 1.6*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                                         )
                                       ],
                                     ),
                                   )),
-                              SizedBox(height:20),
+
+                              SizedBox(height:1.6*SizeConfig.heightMultiplier),
                               Center(
-                                child: ElevatedButton(
-                                  child: Text("LOGOUT",style: TextStyle(color: Colors.white),),
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                                child: SizedBox(
+                                  width: 34*SizeConfig.widthMultiplier,
+                                  height: 4*SizeConfig.heightMultiplier,
+                                  child: ElevatedButton(
+                                    child: Text("LOGOUT",style: TextStyle(color: Colors.white),),
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                                    ),
+                                    onPressed: () {
+
+
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                                      );
+                                    },
                                   ),
-                                  onPressed: () {
-
-
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                                    );
-                                  },
                                 ),
                               ),
 

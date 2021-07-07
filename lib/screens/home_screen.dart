@@ -54,9 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Column(
                   children: [
-                    Padding(padding: EdgeInsets.only(top: 1.2*SizeConfig.heightMultiplier),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontSize: 1.6*SizeConfig.heightMultiplier),),),
+                    Padding(padding: EdgeInsets.only(top: 1.2*SizeConfig.heightMultiplier),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontWeight:FontWeight.bold,fontSize: 1.6*SizeConfig.heightMultiplier),),),
                     SizedBox(
                       child: HotDeals(),
+                      height: 21.5*SizeConfig.heightMultiplier,
+
                       //DealTile(),
                     ),
                   ],
@@ -69,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Divider(color: Colors.grey,)
                     ),
 
-                    Padding(padding: EdgeInsets.all(1.2*SizeConfig.heightMultiplier),child: Text("DEALS",style: TextStyle(fontSize: 1.6*SizeConfig.heightMultiplier),),),
+                    Padding(padding: EdgeInsets.all(1.2*SizeConfig.heightMultiplier),child: Text("DEALS",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 1.6*SizeConfig.heightMultiplier),),),
 
                     Expanded(
                         child: Divider(color: Colors.grey,)

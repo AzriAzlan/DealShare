@@ -5,7 +5,7 @@ class AppTheme {
 
   AppTheme._();
 
-  static const Color appBackgroundColor = Color(0xFFFFF7EC);
+  static const Color appBackgroundColor = Colors.white;
 
 
   static final ThemeData lightTheme = ThemeData(

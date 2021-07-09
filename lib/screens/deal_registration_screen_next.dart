@@ -1,4 +1,5 @@
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,6 +26,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.cyan,
           centerTitle: true,
           title: Text("Deal Registration"),
         ),
@@ -86,7 +88,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: SizedBox(
-                        width: 60,
+                        width: 8*SizeConfig.widthMultiplier,
                         child: TextField(
                           decoration: InputDecoration(
                             labelText: "Unit",
@@ -96,7 +98,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
                     ),
 
                     SizedBox(
-                      width: 290,
+                      width: 40*SizeConfig.widthMultiplier,
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: "Amount",
@@ -145,7 +147,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, right: 20),
                               child: SizedBox(
-                                width: 125,
+                                width: 17*SizeConfig.widthMultiplier,
                                 child: TextField(
                                   decoration: InputDecoration(
                                     labelText: "Start Date",
@@ -159,7 +161,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0, right: 5.0),
                               child: SizedBox(
-                                width: 125,
+                                width: 17*SizeConfig.widthMultiplier,
                                 child: TextField(
                                   decoration: InputDecoration(
                                     labelText: "End Date",
@@ -199,7 +201,7 @@ class _DealRegistration2 extends State<DealRegistration2> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 250.0, top: 20.0),
+                  padding: const EdgeInsets.all(8),
                   child: TextButton(
                     child: Text(
                       "Save",

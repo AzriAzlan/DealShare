@@ -1,28 +1,32 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dealshare/images.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HotDeals extends StatelessWidget {
+
+  var images = [Images.nikeLogo];
+
   @override
   Widget build(BuildContext context) {
 
-    return CarouselSlider(
-      options: CarouselOptions(height: 250.0),
-      items: [1,2,3].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              child: Container(
-                child: Center(
-                   child: DealTile(),
-                ),
-              ),
-            );
-          },
+    return Swiper(
+      itemBuilder:(BuildContext context, int index) {
+        return Center(
+          child: Container(
+                      child: Center(
+                          child: DealTile(),
+                       ),
+                     ),
         );
-      }).toList(),
+      },
+      itemCount: 5,
+      viewportFraction: 0.7,
+      scale: 0.8,
+      itemWidth:MediaQuery.of(context).size.width,
+      layout: SwiperLayout.DEFAULT,
     );
   }
 }

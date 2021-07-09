@@ -1,14 +1,15 @@
-
+import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/deal_registration_screen.dart';
+import 'package:dealshare/screens/login_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
+import 'package:dealshare/screens/saved_deals.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:dealshare/widgets/deals.dart';
-import 'package:dealshare/widgets/hot_deals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,118 +17,187 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final int _selectedIndex=0;
+  final int _selectedIndex = 0;
+  bool _showBackToTopButton = false;
+  ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = new ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (scrollController.offset >= 32 * SizeConfig.heightMultiplier) {
+            _showBackToTopButton = true; // show the back-to-top button
+
+          } else {
+            _showBackToTopButton = false; // hide the back-to-top button
+          }
+        });
+      });
+  }
+
+  void toTop() {
+    scrollController.animateTo(0,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
 
-    return Scaffold(
-      appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text("Deals Page"),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: <Widget>[
-          GestureDetector(child: Row(
-            children: [
-              Icon(Icons.add),
-              Center(child: Text("New Deal"),),
-            ],
-          ),onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DealRegistration())); },),
-        ],
-      ),
-      body: Container(
-             child: Column(
-          children: [
-              Container(
-                height: 25*SizeConfig.heightMultiplier,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.blueAccent,Colors.cyan]
-                    )
-                ),
-                child: Column(
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 1.2*SizeConfig.heightMultiplier),child: Text("HOT DEALS",style: TextStyle(color:Colors.white,fontWeight:FontWeight.bold,fontSize: 1.6*SizeConfig.heightMultiplier),),),
-                    SizedBox(
-                      child: HotDeals(),
-                      height: 21.5*SizeConfig.heightMultiplier,
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
-                      //DealTile(),
+    return MaterialApp(
+      home: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      Images.profilepic,
+                      width: 12 * SizeConfig.widthMultiplier,
+                    ),
+                    SizedBox(
+                      width: 7 * SizeConfig.widthMultiplier,
+                    ),
+                    Text(
+                      "AZRI D",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
               ),
-
-              Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: Divider(color: Colors.grey,)
-                    ),
-
-                    Padding(padding: EdgeInsets.all(1.2*SizeConfig.heightMultiplier),child: Text("DEALS",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 1.6*SizeConfig.heightMultiplier),),),
-
-                    Expanded(
-                        child: Divider(color: Colors.grey,)
-                    ),
-                  ]
+              ListTile(
+                leading: Icon(Icons.redeem),
+                title: Text('Redeem Points'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Redeempage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text('Register a deal'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DealRegistration()),
+                  );
+                },
               ),
 
-              Expanded(
-                    child: Deals()
-                //DealTile(),
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Log Out'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
               ),
+            ],
+          ),
+        ),
+        body: CustomScrollView(
+          controller: scrollController,
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 26 * SizeConfig.heightMultiplier,
+              backgroundColor: Colors.cyan,
+              flexibleSpace: FlexibleSpaceBar(
+                background: SingleChildScrollView(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.blueAccent, Colors.cyan]),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Hot Deals",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 1.6 * SizeConfig.heightMultiplier),
+                        ),
+                        SizedBox(
+                          child: DealTile(),
+                          height: 21.5 * SizeConfig.heightMultiplier,
 
+                          //DealTile(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(1.6 * SizeConfig.heightMultiplier),
+              sliver: Deals(),
+            ),
           ],
         ),
+        floatingActionButton: _showBackToTopButton == false
+            ? null
+            : FloatingActionButton(
+                backgroundColor: Colors.cyan,
+                onPressed: toTop,
+                child: Icon(Icons.arrow_upward),
+              ),
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.black,
+          backgroundColor: Colors.cyan,
+          unselectedItemColor: Colors.white,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark_border_rounded),
+              label: 'Saved',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.portrait),
+              label: 'Account',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (_selectedIndex) {
+            switch (_selectedIndex) {
+              case 1:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SavedDeals()),
+                );
+                break;
 
+              case 2:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+            }
+          },
+        ),
       ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.redeem),
-            label: 'Redeem Points',
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.portrait),
-            label: 'My Profile',
-          ),
-        ],
-
-        currentIndex: _selectedIndex,
-        onTap:  (_selectedIndex) {
-          switch(_selectedIndex) {
-            case 1:
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Redeempage()),
-            );
-            break;
-
-            case 2:
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
-            );
-
-          }
-        },
-      ),
-
     );
   }
 }

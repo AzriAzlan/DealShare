@@ -1,9 +1,9 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
-import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Redeempage extends StatefulWidget {
   @override
@@ -32,27 +32,32 @@ class _RedeempageState extends State<Redeempage> {
         });
   }
 
-  final int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.cyan,
         title: Text('Redeem Points'),
         centerTitle: true,
-        automaticallyImplyLeading: false,
       ),
       body: Container(
         child: Column(
           children: [
             SizedBox(
-              height: 25,
+              height: 2*SizeConfig.heightMultiplier,
             ),
             Align(
               alignment: Alignment.center,
               child: Text(
                 'Currently, you have',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 13),
               ),
             ),
             SizedBox(
@@ -65,7 +70,7 @@ class _RedeempageState extends State<Redeempage> {
                     alignment: FractionalOffset(0.3, 0),
                     child: Text(
                       '1006',
-                      style: TextStyle(fontSize: 40),
+                      style: TextStyle(fontSize: 17),
                     ),
                   ),
                 ),
@@ -236,39 +241,6 @@ class _RedeempageState extends State<Redeempage> {
             )
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.redeem),
-            label: 'Redeem Points',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.portrait),
-            label: 'My Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (_selectedIndex) {
-          switch (_selectedIndex) {
-            case 0:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-              break;
-
-            case 2:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-          }
-        },
       ),
     );
   }

@@ -28,6 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       DeviceOrientation.portraitUp,
     ]);
 
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
     return MaterialApp(
       home: GestureDetector(
         onTap: () {

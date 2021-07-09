@@ -1,3 +1,4 @@
+import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/image_input.dart';
@@ -32,6 +33,7 @@ class _DealRegistration extends State<DealRegistration> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.cyan,
           centerTitle: true,
           title: Text("Deal Registration"),
         ),
@@ -52,7 +54,7 @@ class _DealRegistration extends State<DealRegistration> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
-                            width: 200,
+                            width: 27*SizeConfig.widthMultiplier,
                             child: TextField(
                               decoration: InputDecoration(
                                 labelText: "Deal Name",
@@ -97,7 +99,7 @@ class _DealRegistration extends State<DealRegistration> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: SizedBox(
-                        width: 100,
+                        width: 13*SizeConfig.widthMultiplier,
                         child: TextField(
                           decoration: InputDecoration(
                             labelText: "Postcode",
@@ -107,7 +109,7 @@ class _DealRegistration extends State<DealRegistration> {
                     ),
 
                     SizedBox(
-                      width: 250,
+                      width: 34*SizeConfig.widthMultiplier,
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: "Country",
@@ -173,7 +175,7 @@ class _DealRegistration extends State<DealRegistration> {
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.only(left: 150, top: 20),
+                      padding: const EdgeInsets.all(8),
                       child: TextButton(
                         child: Text(
                           "Next",

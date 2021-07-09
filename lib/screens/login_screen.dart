@@ -1,4 +1,5 @@
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'reset_screen.dart';
@@ -22,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
       DeviceOrientation.portraitUp,
     ]);
 
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -38,22 +41,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image(
-                      height: 120,
+                      height: 9.5*SizeConfig.heightMultiplier,
                       image: AssetImage('assets/logo.png'),
                     ),
 
-                    SizedBox(height: 30),
+                    SizedBox(height: 2.4*SizeConfig.heightMultiplier),
 
                     Text(
                       "WELCOME TO REWARDS4U",
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 1.6*SizeConfig.textMultiplier, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 2.4*SizeConfig.heightMultiplier),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 2*SizeConfig.widthMultiplier),
                       child: SizedBox(
-                        width: 600,
+                        width: 83*SizeConfig.widthMultiplier,
                         child: TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
@@ -68,10 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 2*SizeConfig.widthMultiplier, vertical: 0.5*SizeConfig.heightMultiplier),
                       child: SizedBox(
-                        width: 600,
+                        width: 83*SizeConfig.widthMultiplier,
                         child: TextField(
                           obscureText: true,
                           controller: _passwordController,
@@ -102,12 +105,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 20),
+                    SizedBox(height: 1.6*SizeConfig.heightMultiplier),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15,0,15,0),
+                      padding: EdgeInsets.fromLTRB(2*SizeConfig.widthMultiplier,0,2*SizeConfig.widthMultiplier,0),
                       child: SizedBox(
-                        height: 55,
-                        width: 600,
+                        height: 7*SizeConfig.heightMultiplier,
+                        width: 55*SizeConfig.widthMultiplier,
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -117,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             "SIGN IN",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                            style: TextStyle(color: Colors.white, fontSize: 2.4*SizeConfig.textMultiplier),
                           ),
                           style: ButtonStyle(
                               backgroundColor:
@@ -127,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 20),
+                    SizedBox(height: 1.6*SizeConfig.heightMultiplier),
 
                     Row(
                         children: <Widget>[
@@ -135,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Divider(color: Colors.grey,)
                           ),
 
-                          Padding(padding: EdgeInsets.all(15),child: Text("OR",style: TextStyle(fontSize: 20),),),
+                          Padding(padding: EdgeInsets.all(2*SizeConfig.widthMultiplier),child: Text("OR",style: TextStyle(fontSize: 1.5*SizeConfig.textMultiplier),),),
 
                           Expanded(
                               child: Divider(color: Colors.grey,)
@@ -143,14 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ]
                     ),
 
-                    SizedBox(height: 20),
-
+                    SizedBox(height: 1.6*SizeConfig.heightMultiplier),
 
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      padding: EdgeInsets.fromLTRB(2*SizeConfig.widthMultiplier,0,2*SizeConfig.widthMultiplier,0),
                       child: SizedBox(
-                        height: 55,
-                        width: 600,
+                        height: 7*SizeConfig.heightMultiplier,
+                        width: 55*SizeConfig.widthMultiplier,
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -162,12 +164,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image(
-                                width: 100,
+                                width: 13*SizeConfig.widthMultiplier,
                                 image: AssetImage('assets/facebook.png'),
                               ),
                               Text(
                                 "SIGN IN WITH FACEBOOK",
-                                style: TextStyle(color: Colors.white, fontSize: 15),
+                                style: TextStyle(color: Colors.white, fontSize: 1.5*SizeConfig.textMultiplier),
                               ),
                             ],
                           ),
@@ -179,12 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
 
-
-
-                    SizedBox(
-                      height: 40,
-                    ),
-
+                    SizedBox(height: 3.2*SizeConfig.heightMultiplier),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68420014751",
+    "project_id": "dealshare-8a1d2",
+    "storage_bucket": "dealshare-8a1d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68420014751:android:09b79fa35ab71c887e88aa",
+        "android_client_info": {
+          "package_name": "com.azriazlan.dealshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68420014751-pgei1h9rb0biqm4jiglj89e1fbrndgpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4NLCBTu9odEbXTMU3yrBbwWmaQaolzZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68420014751-pgei1h9rb0biqm4jiglj89e1fbrndgpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

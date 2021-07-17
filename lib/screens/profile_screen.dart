@@ -1,10 +1,8 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
-import 'package:dealshare/screens/login_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -13,11 +11,11 @@ class ProfilePage extends StatelessWidget {
   int _selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    //
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return Scaffold(
       body: Container(
@@ -163,7 +161,7 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Recent Activity",
+                        "Pending",
                         style: TextStyle(
                           color: Colors.blueAccent,
                           fontStyle: FontStyle.normal,
@@ -243,8 +241,8 @@ class ProfilePage extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border_rounded),
-            label: 'Saved',
+            icon: Icon(Icons.favorite),
+            label: 'Favourites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.portrait),

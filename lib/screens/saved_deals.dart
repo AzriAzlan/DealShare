@@ -1,14 +1,9 @@
 import 'package:dealshare/images.dart';
-import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/size_config.dart';
-import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:dealshare/widgets/deals.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:share_plus/share_plus.dart';
 
 class SavedDeals extends StatelessWidget {
   List<String> images = [
@@ -25,11 +20,11 @@ class SavedDeals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    //
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -60,8 +55,8 @@ class SavedDeals extends StatelessWidget {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border_rounded),
-              label: 'Saved',
+              icon: Icon(Icons.favorite),
+              label: 'Favourites',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.portrait),

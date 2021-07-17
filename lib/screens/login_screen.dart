@@ -1,7 +1,6 @@
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'reset_screen.dart';
 import 'register_screen.dart';
 
@@ -19,11 +18,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    //
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return Scaffold(
       body: GestureDetector(
@@ -109,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(2*SizeConfig.widthMultiplier,0,2*SizeConfig.widthMultiplier,0),
                       child: SizedBox(
-                        height: 7*SizeConfig.heightMultiplier,
+                        height: 6*SizeConfig.heightMultiplier,
                         width: 55*SizeConfig.widthMultiplier,
                         child: TextButton(
                           onPressed: () {
@@ -120,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             "SIGN IN",
-                            style: TextStyle(color: Colors.white, fontSize: 2.4*SizeConfig.textMultiplier),
+                            style: TextStyle(color: Colors.white, fontSize: 1.6*SizeConfig.textMultiplier),
                           ),
                           style: ButtonStyle(
                               backgroundColor:
@@ -152,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.fromLTRB(2*SizeConfig.widthMultiplier,0,2*SizeConfig.widthMultiplier,0),
                       child: SizedBox(
                         height: 7*SizeConfig.heightMultiplier,
-                        width: 55*SizeConfig.widthMultiplier,
+                        width: 65*SizeConfig.widthMultiplier,
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(

@@ -1,6 +1,5 @@
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Reset extends StatefulWidget {
   @override
@@ -18,11 +17,11 @@ class _ResetState extends State<Reset> {
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    //
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return Scaffold(
       body: GestureDetector(
         onTap: () {

@@ -13,10 +13,10 @@ class _DealRegistration2 extends State<DealRegistration2> {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    //
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
 
     return GestureDetector(
       onTap: () {

@@ -1,6 +1,5 @@
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'login_screen.dart';
 class RegisterScreen extends StatefulWidget {
   final bool usernameEmpty = false;
@@ -24,11 +23,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    //
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return MaterialApp(
       home: GestureDetector(

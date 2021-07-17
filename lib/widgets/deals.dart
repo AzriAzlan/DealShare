@@ -1,26 +1,30 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/size_config.dart';
+import 'package:dealshare/widgets/ScaleRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Deals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool useMobileLayout = shortestSide < 600;
     Color offwhite = Color(0xfff8f8ff);
     List <String> images = [Images.nikeLogo,Images.touchGo,Images.starbucks,Images.mcdetails,Images.nikedetails,Images.mcdonalds];
     var size = MediaQuery.of(context).size;
-    final double itemHeight =  24*SizeConfig.heightMultiplier; //(size.height - kToolbarHeight - 24) / 2;
+    var portrait = MediaQuery.of(context).orientation==Orientation.portrait;
+    final double itemHeight =  useMobileLayout&&portrait?24*SizeConfig.heightMultiplier:40*SizeConfig.heightMultiplier; //(size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 2;
     final border = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(25.0),
+
       //side: BorderSide(width: 1.0,style: BorderStyle.solid,color: Colors.grey,),
     );
 
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount:useMobileLayout?2:3,
         childAspectRatio: (itemWidth / itemHeight),
       ),
       // crossAxisSpacing: 1.2 * SizeConfig.widthMultiplier,
@@ -32,20 +36,19 @@ class Deals extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DetailsPage()));
+                    ScaleRoute(page: DetailsPage()));
               },
                 child: Padding(
                   padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
                   child: Card(
                     shape: border,
                     child: Column(children: <Widget>[
-                      SizedBox(height: 1.4*SizeConfig.heightMultiplier,),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(2*SizeConfig.heightMultiplier),
                         child: Container(
                           child: Image.asset(
                             index>=5?images[index-5]:images[index],
-                            width: 17 * SizeConfig.widthMultiplier,
+                            width: useMobileLayout&&portrait?17 * SizeConfig.widthMultiplier:14* SizeConfig.widthMultiplier,
                           ),
                         ),
                       ),
@@ -69,13 +72,8 @@ class Deals extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            child: Icon(Icons.access_time,color: index%3==0?Colors.grey:Colors.red,size: 2.2*SizeConfig.heightMultiplier,),
-                            onTap: () {
-                              Share.share('check out my website https://example.com');
-                            },
-                          ),
-                          Text(index%3==0?" June 10":" May 25"),
+                          Text("Valid till "),
+                          Text(index%3==0?"June 10":"May 25"),
                         ],
                       ),
                     ]),

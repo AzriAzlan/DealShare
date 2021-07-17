@@ -1,7 +1,5 @@
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../widgets/image_input.dart';
 import 'deal_registration_screen_next.dart';
 import 'dart:io';
 
@@ -21,9 +19,9 @@ class _DealRegistration extends State<DealRegistration> {
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
 
     return GestureDetector(
       onTap: () {
@@ -46,7 +44,7 @@ class _DealRegistration extends State<DealRegistration> {
                 Row(
                   children: [
 
-                    ImageInput(savedImages),
+                    //ImageInput(savedImages),
 
                     Column(
                       children: [

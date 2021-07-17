@@ -2,12 +2,12 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/size_config.dart';
+import 'package:dealshare/widgets/ScaleRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:dealshare/styling.dart';
 
 class DealTile extends StatelessWidget {
+
   List<String> images = [
     Images.nikeLogo,
     Images.touchGo,
@@ -22,6 +22,12 @@ class DealTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool useMobileLayout = shortestSide < 600;
+    var portrait = MediaQuery.of(context).orientation==Orientation.portrait;
+
     return Container(
       height: 24 * SizeConfig.heightMultiplier,
       //color: Colors.red,
@@ -34,7 +40,7 @@ class DealTile extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => DetailsPage()));
+                        ScaleRoute(page: DetailsPage()));
                   },
                   child: Padding(
                     padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
@@ -48,7 +54,7 @@ class DealTile extends StatelessWidget {
                               2 * SizeConfig.heightMultiplier),
                           child: Image.asset(
                             index >= 5 ? images[index - 5] : images[index],
-                            width: 17 * SizeConfig.widthMultiplier,
+                            width: useMobileLayout&&portrait?17 * SizeConfig.widthMultiplier:14* SizeConfig.widthMultiplier,
                           ),
                         ),
                         Row(
@@ -71,7 +77,7 @@ class DealTile extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.access_time,color: index%3==0?Colors.grey:Colors.red,size: 2.2*SizeConfig.heightMultiplier,),
+                            Text("Valid till "),
                             Text(index%3==0?"June 10":"May 25"),
                           ],
                         ),

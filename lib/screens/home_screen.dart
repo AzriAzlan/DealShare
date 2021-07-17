@@ -44,11 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
 
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool useMobileLayout = shortestSide < 600;
+
+    useMobileLayout?SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]):null;
 
     return MaterialApp(
       home: Scaffold(
@@ -97,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-
               ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Log Out'),
@@ -127,25 +128,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           end: Alignment.bottomCenter,
                           colors: [Colors.blueAccent, Colors.cyan]),
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Hot Deals",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 1.6 * SizeConfig.heightMultiplier),
-                        ),
-                        SizedBox(
-                          child: DealTile(),
-                          height: 21.5 * SizeConfig.heightMultiplier,
+                    child: SafeArea(
+                      child: Column(
+                        children: [
 
-                          //DealTile(),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.only(top:1.5*SizeConfig.heightMultiplier),
+                            child: Text(
+                              "Hot Deals",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 2 * SizeConfig.heightMultiplier),
+                            ),
+                          ),
+                          
+                          SizedBox(
+                            child: DealTile(),
+                            height: 21.5 * SizeConfig.heightMultiplier,
+                            //DealTile(),
+                          ),
+                      
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -171,8 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border_rounded),
-              label: 'Saved',
+              icon: Icon(Icons.favorite),
+              label: 'Favourites',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.portrait),

@@ -1,20 +1,56 @@
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/services/auth.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'reset_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  final bool usernameEmpty = false;
-  final bool passwordEmpty = false;
-  final bool verifyFailed = false;
+  bool usernameEmpty = false;
+  bool passwordEmpty = false;
+  bool verifyFailed = false;
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final Authenticate _auth = Authenticate();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void onLogin() async {
+    setState(() {
+      _usernameController.text.isEmpty
+          ? widget.usernameEmpty = true
+          : widget.usernameEmpty = false;
+      _passwordController.text.isEmpty
+          ? widget.passwordEmpty = true
+          : widget.passwordEmpty = false;
+    });
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+      return;
+    } else {
+      dynamic result = await _auth.signInEmail(
+          _usernameController.text, _passwordController.text);
+
+      if (result == null) {
+        print("error signin");
+        return;
+      } else {
+        print("signedin");
+        print(result);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            labelText: "Username",
+                            labelText: "Email",
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
@@ -111,12 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 6*SizeConfig.heightMultiplier,
                         width: 55*SizeConfig.widthMultiplier,
                         child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => HomeScreen()),
-                            );
-                          },
+                          onPressed: onLogin,
                           child: Text(
                             "SIGN IN",
                             style: TextStyle(color: Colors.white, fontSize: 1.6*SizeConfig.textMultiplier),
@@ -196,7 +227,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterScreen()),
+                                  builder: (context) =>
+                                      RegisterScreen()),
                             ),
                           ),
                         ),

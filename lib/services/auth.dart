@@ -50,6 +50,7 @@ class Authenticate {
 
   //sign in with facebook
   Future signInWithFacebook() async {
+
     try {
       final LoginResult result = await FacebookAuth.instance.login();
       switch (result.status) {
@@ -58,6 +59,14 @@ class Authenticate {
           FacebookAuthProvider.credential(result.accessToken.token);
           final userCredential =
           await _firebaseAuth.signInWithCredential(facebookCredential);
+          //print(userCredential.user.displayName);
+
+          String name = await DatabaseService().getUserDetails();
+
+          if(name!=userCredential.user.displayName) {
+            _setUserData(userCredential.user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country');
+          }
+
           return userCredential;
         case LoginStatus.cancelled:
           return null;
@@ -149,10 +158,11 @@ Future signInWithGoogle() async {
 
     try {
       if (!kIsWeb) {
+        await FacebookAuth.instance.logOut();
         await FirebaseAuth.instance.signOut();
         await googleSignIn.signOut();
       }
-      await FirebaseAuth.instance.signOut();
+      //await FirebaseAuth.instance.signOut();
       print("signedout");
       return await _firebaseAuth.signOut();
     } catch (e) {

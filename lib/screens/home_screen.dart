@@ -5,6 +5,7 @@ import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
 import 'package:dealshare/services/auth.dart';
+import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:dealshare/widgets/deals.dart';
@@ -20,11 +21,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Authenticate _auth = Authenticate();
   final int _selectedIndex = 0;
+  String name="";
   bool _showBackToTopButton = false;
   ScrollController scrollController;
 
   @override
   void initState() {
+    getUserDetails();
     super.initState();
     scrollController = new ScrollController()
       ..addListener(() {
@@ -37,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         });
       });
+  }
+
+  void getUserDetails () async {
+    name = await DatabaseService().getUserDetails();
+    setState(() {
+      name=name;
+    });
   }
 
   void toTop() {
@@ -75,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 7 * SizeConfig.widthMultiplier,
                     ),
                     Text(
-                      "AZRI D",
+                      "$name",
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -112,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+
             ],
           ),
         ),

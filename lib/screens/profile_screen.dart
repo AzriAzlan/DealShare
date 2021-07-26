@@ -1,14 +1,37 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
+import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final List<String> entries = <String>['+5', '+2', '+1'];
 
   int _selectedIndex = 2;
+
+  String name="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserDetails();
+    super.initState();
+  }
+
+  void getUserDetails () async {
+    name = await DatabaseService().getUserDetails();
+    setState(() {
+      name=name;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([
@@ -47,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                               height: 1 * SizeConfig.heightMultiplier,
                             ),
                             Text(
-                              "Azri D",
+                              "$name",
                               style: TextStyle(
                                 fontSize: 1.7 * SizeConfig.heightMultiplier,
                                 color: Colors.white,

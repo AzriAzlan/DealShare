@@ -4,6 +4,7 @@ import 'package:dealshare/screens/login_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/redeem_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
+import 'package:dealshare/services/auth.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/deal_tile.dart';
 import 'package:dealshare/widgets/deals.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final Authenticate _auth = Authenticate();
   final int _selectedIndex = 0;
   bool _showBackToTopButton = false;
   ScrollController scrollController;
@@ -102,7 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Log Out'),
-                onTap: () {
+                onTap:  () async {
+                  await _auth.signOut();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),

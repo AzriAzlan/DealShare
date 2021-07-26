@@ -3,6 +3,8 @@ import 'package:dealshare/services/auth.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import 'package:country_list_pick/country_list_pick.dart';
+
 
 
 class RegisterScreen extends StatefulWidget {
@@ -23,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _mobileController = TextEditingController();
   final _addressController = TextEditingController();
   final _postcodeController = TextEditingController();
+  String country="";
 
 
   @override
@@ -39,37 +42,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void onRegister() async {
-    // setState(() {
-    //   _usernameController.text.isEmpty
-    //       ? widget.usernameEmpty = true
-    //       : widget.usernameEmpty = false;
-    //   _passwordController.text.isEmpty
-    //       ? widget.passwordEmpty = true
-    //       : widget.passwordEmpty = false;
-    // });
-    // if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
-    //   return;
-    // } else {
-    //   dynamic result = _auth.registerWithEmail(
-    //       //name,gender,mobile,address,postcode,country
-    //       _usernameController.text,
-    //       _passwordController.text);
-    //
-    //   if (result == null) {
-    //     // Error Signin Up
-    //     print("error signup");
-    //     return;
-    //   } else {
-    //     // Signed Up
-    //     print("signedup");
-    //     print(result);
-    //
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => HomeScreen()),
-    //     );
-    //   }
-    // }
+    setState(() {
+      _usernameController.text.isEmpty
+          ? widget.usernameEmpty = true
+          : widget.usernameEmpty = false;
+      _passwordController.text.isEmpty
+          ? widget.passwordEmpty = true
+          : widget.passwordEmpty = false;
+    });
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+      return;
+    } else {
+      print(country);
+      dynamic result = _auth.registerWithEmail(
+          _usernameController.text,
+          _passwordController.text,
+          _nameController.text,
+          _genderRadioBtnVal,
+          _mobileController.text,
+          _addressController.text,
+          _postcodeController.text,
+          country,
+      );
+
+      if (result == null) {
+        // Error Signin Up
+        print("error signup");
+        return;
+      } else {
+        // Signed Up
+        print("signedup");
+        print(result);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+    }
   }
   String _genderRadioBtnVal="Male";
 
@@ -182,6 +192,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
 
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 2 * SizeConfig.widthMultiplier),
+                      child: SizedBox(
+                        width: 83 * SizeConfig.widthMultiplier,
+                        child: TextField(
+                          controller: _mobileController,
+                          decoration: InputDecoration(
+                            labelText: "Phone Number",
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperStyle: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    //address
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 2 * SizeConfig.widthMultiplier),
+                      child: SizedBox(
+                        width: 83 * SizeConfig.widthMultiplier,
+                        child: TextField(
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                            labelText: "Address",
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperStyle: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    //postcode
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 2 * SizeConfig.widthMultiplier),
+                      child: SizedBox(
+                        width: 83 * SizeConfig.widthMultiplier,
+                        child: TextField(
+                          controller: _postcodeController,
+                          decoration: InputDecoration(
+                            labelText: "Postcode",
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperStyle: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                //country
+                CountryListPick(
+                  appBar: AppBar(
+                    backgroundColor: Colors.cyan,
+                    title: Text('Pick your country'),
+                  ),
+                  theme: CountryTheme(
+                    isShowFlag: true,
+                    isShowTitle: true,
+                    isShowCode: true,
+                    isDownIcon: true,
+                    showEnglishName: false,
+                    labelColor: Colors.blueAccent,
+                  ),
+                  initialSelection: '+60',
+                  onChanged: (CountryCode code) {
+                    setState(() {
+                      country = code.name;
+                    });
+                  },
+                ),
 
                     //Gender
                   Row(
@@ -202,6 +292,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Text("Female"),
                     ],
                   ),
+
+
 
 
                     SizedBox(height: 1.6 * SizeConfig.heightMultiplier),

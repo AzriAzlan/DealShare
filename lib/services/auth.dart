@@ -59,11 +59,11 @@ class Authenticate {
           FacebookAuthProvider.credential(result.accessToken.token);
           final userCredential =
           await _firebaseAuth.signInWithCredential(facebookCredential);
-          //print(userCredential.user.displayName);
+          //print(userCredential);
 
-          String name = await DatabaseService().getUserDetails();
+          List userDetails = await DatabaseService().getUserDetails();
 
-          if(name!=userCredential.user.displayName) {
+          if(userDetails[0]!=userCredential.user.displayName) {
             _setUserData(userCredential.user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country');
           }
 
@@ -117,6 +117,12 @@ Future signInWithGoogle() async {
       }
     }
 
+    List userDetails = await DatabaseService().getUserDetails();
+
+    if(userDetails[0]!=user.displayName) {
+      _setUserData(user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country');
+    }
+
     return user;
   }
 
@@ -131,6 +137,7 @@ Future signInWithGoogle() async {
         password: password,
       );
       User user = result.user;
+
       return user;
     } catch (e) {
       print(e.toString());

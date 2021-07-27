@@ -6,6 +6,8 @@ import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
+import 'package:intl/intl.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -16,7 +18,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   int _selectedIndex = 2;
 
+  List userDetails;
   String name="";
+  String photoURL="";
+  DateTime since;
+  String date="";
+
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   @override
   void initState() {
@@ -26,14 +34,25 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void getUserDetails () async {
-    name = await DatabaseService().getUserDetails();
+    userDetails = await DatabaseService().getUserDetails();
+    name = userDetails[0];
+    since = userDetails[1];
+    photoURL=userDetails[2];
+
     setState(() {
+      userDetails=userDetails;
       name=name;
+      photoURL=photoURL;
+      since=since;
+      date = formatter.format(since);
+
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     // ]);
@@ -61,9 +80,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                'assets/profilepicture.png',
-                              ),
+                              backgroundImage: NetworkImage(
+                                "$photoURL",
+                              ) ,
                               radius: 8 * SizeConfig.widthMultiplier,
                             ),
                             SizedBox(
@@ -108,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 SizeConfig.heightMultiplier,
                                           ),
                                           Text(
-                                            "18/8/2020",
+                                            "$date",
                                             style: TextStyle(
                                               //fontSize: 20.0,
                                               color: Colors.cyan,

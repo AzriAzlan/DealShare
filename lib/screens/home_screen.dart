@@ -21,9 +21,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Authenticate _auth = Authenticate();
   final int _selectedIndex = 0;
+  List userDetails;
   String name="";
+  String photoURL="";
   bool _showBackToTopButton = false;
   ScrollController scrollController;
+
 
   @override
   void initState() {
@@ -43,9 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getUserDetails () async {
-    name = await DatabaseService().getUserDetails();
+    userDetails = await DatabaseService().getUserDetails();
+    name=userDetails[0];
+    photoURL=userDetails[2];
     setState(() {
+      userDetails=userDetails;
       name=name;
+      photoURL=photoURL;
     });
   }
 
@@ -77,10 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Row(
                   children: [
-                    Image.asset(
-                      Images.profilepic,
-                      width: 12 * SizeConfig.widthMultiplier,
-                    ),
+
+                    FadeInImage.assetNetwork(
+                        placeholder: 'assets/profilepicture.png',
+                      image:"$photoURL",
+                        width: 12 * SizeConfig.widthMultiplier,
+                      ),
+
+
                     SizedBox(
                       width: 7 * SizeConfig.widthMultiplier,
                     ),

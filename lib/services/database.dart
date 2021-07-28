@@ -104,10 +104,8 @@ class DatabaseService {
     var query = pointCollection.doc(uid);
 
     int currentPoints = 0;
-    int generation = 0;
     await query.get().then((value) {
       currentPoints = int.parse(value['Points']);
-      generation = int.parse(value['Generation']);
     });
 
     int balance = currentPoints - amount;

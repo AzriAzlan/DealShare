@@ -4,13 +4,55 @@ import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dealshare/services/database.dart';
 
 class Redeempage extends StatefulWidget {
+  String points = "0";
   @override
   _RedeempageState createState() => _RedeempageState();
 }
 
 class _RedeempageState extends State<Redeempage> {
+
+  DatabaseService db = new DatabaseService();
+
+  void updatePointsRealTime() {
+    db.retrievePoint().then((value) => setState(() {
+      widget.points = value;
+    }));
+  }
+
+  void displaySuccess() {
+    CoolAlert.show(
+        context: context,
+        title: "",
+        type: CoolAlertType.success,
+        text: 'Redeemed Successful!',
+        confirmBtnText: 'Okay',
+        confirmBtnColor: Colors.green,
+        cancelBtnTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        onConfirmBtnTap: () async {
+          Navigator.pop(context);
+        });
+  }
+
+  void displayFailed() {
+    CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: "",
+        text: 'Oops. It seems like you don\'t have enough points',
+        confirmBtnText: 'Okay',
+        confirmBtnColor: Colors.green,
+        cancelBtnTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        onConfirmBtnTap: () async {
+          Navigator.pop(context);
+        });
+  }
 
   void redeem() {
     CoolAlert.show(
@@ -24,16 +66,17 @@ class _RedeempageState extends State<Redeempage> {
         cancelBtnTextStyle: TextStyle(
           fontWeight: FontWeight.bold,
         ),
-        onConfirmBtnTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
+        onConfirmBtnTap: () async {
+          int amount = 500;
+          await db.deductPoints(amount);
+          Navigator.pop(context);
         });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    updatePointsRealTime();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -69,7 +112,7 @@ class _RedeempageState extends State<Redeempage> {
                   child: Align(
                     alignment: FractionalOffset(0.3, 0),
                     child: Text(
-                      '1006',
+                      widget.points,
                       style: TextStyle(fontSize: 17),
                     ),
                   ),

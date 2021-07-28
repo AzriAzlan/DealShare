@@ -67,4 +67,73 @@ class DatabaseService {
     return userDetails;
   }
 
+  Future<void> gainPoints(String recipientId) async {
+
+    final CollectionReference pointCollection = FirebaseFirestore.instance.collection('UserPoints');
+    var query = pointCollection.doc(recipientId);
+
+    int generation = 0;
+    int plus = 0;
+    int recipientPoints = 0;
+
+    await query.get().then((value) {
+      recipientPoints = int.parse(value['Points']);
+      generation = int.parse(value['Generation']);
+    });
+
+    if (generation == 1) {
+      plus = 5;
+    }
+    else if (generation == 2) {
+      plus = 2;
+    }
+    else if (generation == 3) {
+      plus = 1;
+    }
+    int balance = recipientPoints + plus;
+
+    await query.update({"Points": balance.toString()});
+  }
+
+  Future<bool> deductPoints(num amount) async {
+
+    final User user = auth.currentUser;
+    final uid = user.uid;
+
+    final CollectionReference pointCollection = FirebaseFirestore.instance.collection('UserPoints');
+    var query = pointCollection.doc(uid);
+
+    int currentPoints = 0;
+    int generation = 0;
+    await query.get().then((value) {
+      currentPoints = int.parse(value['Points']);
+      generation = int.parse(value['Generation']);
+    });
+
+    int balance = currentPoints - amount;
+    if (balance >= 0) {
+      await query.update({"Points": balance.toString()});
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  Future<String> retrievePoint() async {
+
+    final User user = auth.currentUser;
+    final uid = user.uid;
+
+    final CollectionReference pointCollection = FirebaseFirestore.instance.collection('UserPoints');
+    var query = pointCollection.doc(uid);
+
+    int currentPoints = 0;
+    await query.get().then((value) {
+      currentPoints = int.parse(value['Points']);
+    });
+
+    return currentPoints.toString();
+  }
+
 }

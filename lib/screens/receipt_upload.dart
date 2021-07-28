@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,10 +14,12 @@ class AddReceipt extends StatefulWidget {
 
 class _AddReceiptState extends State<AddReceipt> {
 
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final _picker = ImagePicker();
   PickedFile image;
   File imageFile;
   var storage = FirebaseStorage.instance;
+
 
   _openGallery(BuildContext context) async {
     image = await _picker.getImage(source: ImageSource.gallery);
@@ -62,17 +65,21 @@ class _AddReceiptState extends State<AddReceipt> {
   }
 
   Future uploadImageToFirebase() async {
+    final User user = auth.currentUser;
+    final uid = user.uid;
     var imageName = DateTime.now().toString();
     TaskSnapshot snapshot = await storage
         .ref()
-        .child("Uploads/$imageName")
+        .child("Receipts/$imageName")
         .putFile(imageFile);
 
     if (snapshot.state == TaskState.success) {
       final String downloadUrl =
       await snapshot.ref.getDownloadURL();
       await FirebaseFirestore.instance
-          .collection("images")
+          .collection("UserData")
+          .doc("$uid")
+          .collection("uploaded_receipts")
           .add({"url": downloadUrl, "name": imageName,});
 
     } else {

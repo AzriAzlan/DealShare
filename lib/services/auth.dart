@@ -22,38 +22,7 @@ class Authenticate {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> _setUserData(String name,String gender,String mobile , String address , String postcode,String country) async {
-    final database = FirebaseFirestore.instance;
-    try {
 
-      User _currentUser = _firebaseAuth.currentUser;
-      String authid =_currentUser.uid;
-      String email = _currentUser.email;
-      final Map<String, String> userData = {
-        'AuthUserId':'$authid',
-        'Name': '$name',
-        'Gender': '$gender',
-        'Mobile': '$mobile',
-        'Email':'$email',
-        'Address': '$address',
-        'Postcode': '$postcode',
-        'Country': '$country',
-      };
-      database.collection('UserData').add(userData).catchError((e) {
-        print(e);
-      });
-      final Map<String, String> pointData = {
-        'Generation':'0',
-        'Points': '0',
-      };
-      database.collection('UserPoints').doc('$authid').set(pointData).catchError((e) {
-        print(e);
-      });
-
-    } catch (e) {
-      print(e);
-    }
-  }
 
 
   //sign in with facebook
@@ -69,11 +38,8 @@ class Authenticate {
           await _firebaseAuth.signInWithCredential(facebookCredential);
           //print(userCredential);
 
-          List userDetails = await DatabaseService().getUserDetails();
+          await DatabaseService().getUserDetails();
 
-          if(userDetails[0]!=userCredential.user.displayName) {
-            _setUserData(userCredential.user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country');
-          }
 
           return userCredential;
         case LoginStatus.cancelled:
@@ -89,7 +55,7 @@ class Authenticate {
   }
 
   //sign in google
-Future signInWithGoogle() async {
+  Future signInWithGoogle() async {
 
     FirebaseAuth auth = FirebaseAuth.instance;
     User user;
@@ -125,11 +91,7 @@ Future signInWithGoogle() async {
       }
     }
 
-    List userDetails = await DatabaseService().getUserDetails();
-
-    if(userDetails[0]!=user.displayName) {
-      _setUserData(user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country');
-    }
+    await DatabaseService().getUserDetails();
 
     return user;
   }
@@ -159,7 +121,7 @@ Future signInWithGoogle() async {
       UserCredential result = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
-      _setUserData(name,gender,mobile,address,postcode,country);
+      await DatabaseService().getUserDetails();
       return user;
     } catch (e) {
       print(e.toString());

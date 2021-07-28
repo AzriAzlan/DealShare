@@ -8,26 +8,61 @@ class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
 
-  final CollectionReference userCollection =
-  FirebaseFirestore.instance.collection('UserData');
+
+  Future<void> _setUserData(String name,String gender,String mobile , String address , String postcode,String country) async {
+    final database = FirebaseFirestore.instance;
+    try {
+
+      User _currentUser = auth.currentUser;
+      String authid =_currentUser.uid;
+      String email = _currentUser.email;
+      final Map<String, String> userData = {
+        'AuthUserId':'$authid',
+        'Name': '$name',
+        'Gender': '$gender',
+        'Mobile': '$mobile',
+        'Email':'$email',
+        'Address': '$address',
+        'Postcode': '$postcode',
+        'Country': '$country',
+      };
+      database.collection('UserData').doc('$authid').set(userData).catchError((e) {
+        print(e);
+      });
+      final Map<String, String> pointData = {
+        'Generation':'0',
+        'Points': '0',
+      };
+      database.collection('UserPoints').doc('$authid').set(pointData).catchError((e) {
+        print(e);
+      });
+
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future <List> getUserDetails() async {
 
     final User user = auth.currentUser;
     final uid = user.uid;
+
+    final DocumentReference userCollection =
+    FirebaseFirestore.instance.collection('UserData').doc('$uid');
+
+    userCollection.get().then((doc) => {
+      if(doc.exists){
+        print("Exist")
+      } else {
+        _setUserData(user.displayName, 'gender', 'mobile', 'address', 'postcode', 'country')
+      }
+    });
+
     final creationTime=user.metadata.creationTime;
-    String name;
+    String name=user.displayName;
     String photoURL = (user.photoURL != null  ? user.photoURL+"?type=large" :"https://www.nicepng.com/png/full/799-7998295_profile-placeholder-woman-720-profile-photo-placeholder-png.png");
     //print(photoURL+"?type=normal");
-    await userCollection.get().then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
 
-        if(result.get('AuthUserId')==uid){
-          name = result.get('Name');
-          //print(name);
-        }
-      });
-    });
     List userDetails = [name,creationTime,photoURL];
     return userDetails;
   }

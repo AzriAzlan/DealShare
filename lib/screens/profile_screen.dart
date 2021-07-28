@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String photoURL="";
   DateTime since;
   String date="";
+  String points = "...";
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
@@ -40,13 +41,17 @@ class _ProfilePageState extends State<ProfilePage> {
     since = userDetails[1];
     photoURL=userDetails[2];
 
+    await DatabaseService().retrievePoint().then((value) => setState(() {
+      points = value;
+    }));
+
     setState(() {
       userDetails=userDetails;
       name=name;
       photoURL=photoURL;
       since=since;
       date = formatter.format(since);
-
+      points = points;
     });
   }
 
@@ -152,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 SizeConfig.heightMultiplier,
                                           ),
                                           Text(
-                                            "1006",
+                                            "$points",
                                             style: TextStyle(
                                               //fontSize: 20.0,
                                               color: Colors.cyan,

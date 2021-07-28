@@ -42,6 +42,14 @@ class Authenticate {
       database.collection('UserData').add(userData).catchError((e) {
         print(e);
       });
+      final Map<String, String> pointData = {
+        'Generation':'0',
+        'Points': '0',
+      };
+      database.collection('UserPoints').doc('$authid').set(pointData).catchError((e) {
+        print(e);
+      });
+
     } catch (e) {
       print(e);
     }

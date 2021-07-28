@@ -82,23 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void onTwitterLogin() async {
-    dynamic result = await _auth.signInWithFacebook();
-
-    if (result == null) {
-      print("error signin");
-      return;
-    } else {
-      print("signedin");
-      print(result);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([
@@ -298,40 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          2 * SizeConfig.widthMultiplier,
-                          0,
-                          2 * SizeConfig.widthMultiplier,
-                          0),
-                      child: SizedBox(
-                        height: 7 * SizeConfig.heightMultiplier,
-                        width: 65 * SizeConfig.widthMultiplier,
-                        child: TextButton(
-                          onPressed: onTwitterLogin,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image(
-                                width: 13 * SizeConfig.widthMultiplier,
-                                image: AssetImage('assets/twitter.png'),
-                              ),
-                              Text(
-                                "SIGN IN WITH TWITTER",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 1.5 * SizeConfig.textMultiplier),
-                              ),
-                            ],
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(Colors.blue[300]),
-                          ),
-                        ),
-                      ),
-                    ),
+
                     SizedBox(height: 3.2 * SizeConfig.heightMultiplier),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

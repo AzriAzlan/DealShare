@@ -1,5 +1,6 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/screens/receipt_upload.dart';
 import 'package:dealshare/screens/saved_deals.dart';
 import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
@@ -61,7 +62,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       body: Container(
-        child: SingleChildScrollView(
           child: SizedBox(
             child: Column(
               children: <Widget>[
@@ -194,84 +194,92 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     )),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 2.4 * SizeConfig.heightMultiplier,
-                      horizontal: 2.2 * SizeConfig.widthMultiplier),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Pending",
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 2.2 * SizeConfig.heightMultiplier,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0.8 * SizeConfig.heightMultiplier,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.all(8),
-                          itemCount: entries.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => AssetGiffyDialog(
-                                      image: Image.asset(
-                                        Images.nikeLogo,
-                                      ),
-                                      title: Text(
-                                        'Received on 21/1/2021',
-                                        style: TextStyle(
-                                            fontSize: 1.8*SizeConfig.textMultiplier, fontWeight: FontWeight.w600),
-                                      ),
-                                      description: Text(
-                                        'First level Successful ad conversion by Azri D',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 1.3*SizeConfig.textMultiplier,
-                                        ),
-                                      ),
-                                      entryAnimation: EntryAnimation.BOTTOM_RIGHT,
-                                      buttonOkColor: Colors.cyan,
-                                      onOkButtonPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ));
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 2.4 * SizeConfig.heightMultiplier,
+                          horizontal: 2.2 * SizeConfig.widthMultiplier),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Pending",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 2.2 * SizeConfig.heightMultiplier,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 0.8 * SizeConfig.heightMultiplier,
+                          ),
+                          SizedBox(
+                            height: (MediaQuery.of(context).size.height)/2,
+                            child: ListView.separated(
+                              padding: const EdgeInsets.all(8),
+                              itemCount: entries.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return SingleChildScrollView(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => AssetGiffyDialog(
+                                            image: Image.asset(
+                                              Images.nikeLogo,
+                                            ),
+                                            title: Text(
+                                              'Received on 21/1/2021',
+                                              style: TextStyle(
+                                                  fontSize: 1.8*SizeConfig.textMultiplier, fontWeight: FontWeight.w600),
+                                            ),
+                                            description: Text(
+                                              'Click OK to proceed to upload receipt as proof of payment.',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 1.3*SizeConfig.textMultiplier,
+                                              ),
+                                            ),
+                                            entryAnimation: EntryAnimation.BOTTOM_RIGHT,
+                                            buttonOkColor: Colors.cyan,
+                                            onOkButtonPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => AddReceipt()),
+                                              );
+                                            },
+                                          ));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withAlpha(100), blurRadius: 10.0),
+                                          ]),
+                                      height: 100,
+                                      child:
+                                          Center(child: FittedBox(child: Text('Points ${entries[index]} from Nike Campaign'))),
+                                    ),
+                                  ),
+                                );
                               },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withAlpha(100), blurRadius: 10.0),
-                                    ]),
-                                height: 100,
-                                child:
-                                    Center(child: FittedBox(child: Text('Points ${entries[index]} from Nike Campaign'))),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(),
-                        ),
+                              separatorBuilder: (BuildContext context, int index) =>
+                                  const Divider(),
+                            ),
+                          ),
+                          SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
+                        ],
                       ),
-                      SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
-                    ],
-                  ),
-                ),
+                    ),
+
+
               ],
             ),
           ),
-        ),
+        
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.black,

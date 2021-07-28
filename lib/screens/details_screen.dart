@@ -3,16 +3,47 @@ import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dealshare/services/dealData.dart';
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key key}) : super(key: key);
+class DetailsPage extends StatefulWidget {
+  final int dealId;
+  const DetailsPage({Key key, this.dealId}) : super(key: key);
+
+  @override
+  _DetailsPageState createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
+  List<DealData> data = [];
+  var counter = 0;
+  void fetchData() {
+    FirebaseFirestore.instance
+        .collection("Deals")
+        .where('deal_id', isEqualTo: widget.dealId)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        DealData deals = DealData.fromMap(doc.data());
+        setState(() {
+          data.add(deals);
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fish Foldover Promo!"),
+        title: Text(data[0].title),
         backgroundColor: Colors.cyan,
         elevation: 0,
         leading: IconButton(
@@ -36,13 +67,13 @@ class DetailsPage extends StatelessWidget {
                     child: Container(
                       width: portrait
                           ? 85 *
-                              SizeConfig
-                                  .widthMultiplier /*MediaQuery.of(context).size.width*/ : 300,
+                          SizeConfig
+                              .widthMultiplier /*MediaQuery.of(context).size.width*/ : 300,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
                             2 * SizeConfig.heightMultiplier),
-                        child: Image.asset(
-                          Images.mcdetails,
+                        child: Image.network(
+                          data[0].image,
                         ),
                       ),
                     ),
@@ -61,12 +92,12 @@ class DetailsPage extends StatelessWidget {
                       ),
                       FittedBox(
                           child: FittedBox(
-                        child: Text(
-                          "45 Ratings",
-                          style: TextStyle(
-                              fontSize: 1.6 * SizeConfig.textMultiplier),
-                        ),
-                      )),
+                            child: Text(
+                              "45 Ratings",
+                              style: TextStyle(
+                                  fontSize: 1.6 * SizeConfig.textMultiplier),
+                            ),
+                          )),
                       SizedBox(
                         width: 15,
                       ),
@@ -77,11 +108,11 @@ class DetailsPage extends StatelessWidget {
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all<double>(0),
                             backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
+                            MaterialStateProperty.all<Color>(Colors.white),
                             foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
+                            MaterialStateProperty.all<Color>(Colors.black),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0),
                                     side: BorderSide(
@@ -122,13 +153,15 @@ class DetailsPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Buy 1 Free 1 Fish Foldover Promo',
-                      style: TextStyle(fontSize: 2 * SizeConfig.heightMultiplier,fontWeight: FontWeight.bold),
+                      data[0].detail,
+                      style: TextStyle(
+                          fontSize: 2 * SizeConfig.heightMultiplier,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '\n• Offer is limited to single redemption per transaction \n• Show QR code while ordering \n• Valid in Malaysia only',
                       style:
-                          TextStyle(fontSize: 1.5 * SizeConfig.textMultiplier),
+                      TextStyle(fontSize: 1.5 * SizeConfig.textMultiplier),
                     ),
                   ],
                 ),
@@ -150,13 +183,15 @@ class DetailsPage extends StatelessWidget {
                               Images.qrcode,
                             ),
                             title: Text(
-                              'Promo Code: A77B7A',
+                              'Promo Code: ' + data[0].promoCode,
                               style: TextStyle(
                                   fontSize: 1.8 * SizeConfig.textMultiplier,
                                   fontWeight: FontWeight.w600),
                             ),
                             description: Text(
-                              'Valid until 15/5/2021. Present this screen to cashier to enjoy voucher.',
+                              'Valid until ' +
+                                  data[0].validDate +
+                                  ' Present this screen to cashier to enjoy voucher.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 1.3 * SizeConfig.textMultiplier,
@@ -165,7 +200,8 @@ class DetailsPage extends StatelessWidget {
                             entryAnimation: EntryAnimation.BOTTOM_RIGHT,
                             buttonOkColor: Colors.cyan,
                             onOkButtonPressed: () {
-                              Navigator.pop(context);
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop();
                             },
                           ));
                     },
@@ -177,7 +213,7 @@ class DetailsPage extends StatelessWidget {
                 height: 1.6 * SizeConfig.heightMultiplier,
               ),
 
-              Text("Valid until 15/5/2021"),
+              Text("Valid until " + data[0].validDate),
 
               SizedBox(
                 height: 1.6 * SizeConfig.heightMultiplier,
@@ -188,9 +224,9 @@ class DetailsPage extends StatelessWidget {
                 child: TextButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.cyan),
+                    MaterialStateProperty.all<Color>(Colors.cyan),
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                    MaterialStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: () {
                     Share.share('check out my website https://example.com');

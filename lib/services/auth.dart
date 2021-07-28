@@ -121,7 +121,9 @@ class Authenticate {
       UserCredential result = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
+      user.updateDisplayName(name);
       await DatabaseService().getUserDetails();
+      await DatabaseService().setUserData(name, gender, mobile, address, postcode, country);
       return user;
     } catch (e) {
       print(e.toString());

@@ -21,8 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onLogin() async {
     setState(() {
-      isLoading=true;
-
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true
           : widget.usernameEmpty = false;
@@ -33,8 +31,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
       return;
     } else {
+
+      setState(() {
+        isLoading=true;
+      });
+
       dynamic result = await _auth.signInEmail(
           _usernameController.text, _passwordController.text);
+      setState(() {
+        isLoading=false;
+      });
 
       if (result == null) {
         print("error signin");

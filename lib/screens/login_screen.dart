@@ -38,17 +38,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
       dynamic result = await _auth.signInEmail(
           _usernameController.text, _passwordController.text);
+
       setState(() {
         isLoading=false;
+
+        if (result == null) {
+          widget.verifyFailed = true;
+        }
+        else {
+          widget.verifyFailed = false;
+        }
       });
 
+      print(result);
+
       if (result == null) {
-        print("error signin");
         return;
       } else {
-        print("signedin");
-        print(result);
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -103,11 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    // ]);
-    //
-    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())):Scaffold(
       body: GestureDetector(

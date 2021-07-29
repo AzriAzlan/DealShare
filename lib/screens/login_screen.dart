@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading=false;
 
   void onLogin() async {
+
     setState(() {
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true
@@ -44,10 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (result == null) {
         print("error signin");
+
         return;
       } else {
+
         print("signedin");
         print(result);
+
 
         Navigator.pushReplacement(
           context,

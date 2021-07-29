@@ -35,7 +35,7 @@ class Authenticate {
           FacebookAuthProvider.credential(result.accessToken.token);
           final userCredential =
           await _firebaseAuth.signInWithCredential(facebookCredential);
-          //print(userCredential);
+          print(userCredential);
 
           await DatabaseService().getUserDetails();
 

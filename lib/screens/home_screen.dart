@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final Authenticate _auth = Authenticate();
   final int _selectedIndex = 0;
   List userDetails;
-  String name="";
+  String name="...";
   String photoURL="";
   bool _showBackToTopButton = false;
   ScrollController scrollController;
@@ -85,10 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
 
                     FadeInImage.assetNetwork(
-                        placeholder: 'assets/profilepicture.png',
+                      placeholder: 'assets/profilepicture.png',
                       image:"$photoURL",
-                        width: 12 * SizeConfig.widthMultiplier,
-                      ),
+                      width: 12 * SizeConfig.widthMultiplier,
+                    ),
 
 
                     SizedBox(
@@ -166,13 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 2 * SizeConfig.heightMultiplier),
                             ),
                           ),
-                          
+
                           SizedBox(
                             child: DealTile(),
                             height: 21.5 * SizeConfig.heightMultiplier,
                             //DealTile(),
                           ),
-                      
+
                         ],
                       ),
                     ),
@@ -189,10 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: _showBackToTopButton == false
             ? null
             : FloatingActionButton(
-                backgroundColor: Colors.cyan,
-                onPressed: toTop,
-                child: Icon(Icons.arrow_upward),
-              ),
+          backgroundColor: Colors.cyan,
+          onPressed: toTop,
+          child: Icon(Icons.arrow_upward),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.black,
           backgroundColor: Colors.cyan,

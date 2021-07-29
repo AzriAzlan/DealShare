@@ -85,6 +85,7 @@ class _DealsState extends State<Deals> {
                         width: useMobileLayout && portrait
                             ? 17 * SizeConfig.widthMultiplier
                             : 14 * SizeConfig.widthMultiplier,
+                        height: 15*SizeConfig.heightMultiplier,
                       ),
                     ),
                   ),

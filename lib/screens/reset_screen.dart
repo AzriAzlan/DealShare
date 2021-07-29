@@ -64,10 +64,7 @@ class _ResetState extends State<Reset> {
       );
 
     }
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {

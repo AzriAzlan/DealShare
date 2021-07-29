@@ -1,4 +1,3 @@
-import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/deal_registration_screen.dart';
 import 'package:dealshare/screens/login_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';

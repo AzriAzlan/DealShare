@@ -20,10 +20,10 @@ class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 2;
 
   List userDetails;
-  String name="";
+  String name="...";
   String photoURL="";
   DateTime since;
-  String date="";
+  String date="...";
   String points = "...";
 
 
@@ -61,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     // ]);
@@ -88,9 +87,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
+                              backgroundImage: "$photoURL" != "" ? NetworkImage(
                                 "$photoURL",
-                              ) ,
+                              ) : AssetImage(
+                                "assets/profilepicture.png"
+                              ),
                               radius: 8 * SizeConfig.widthMultiplier,
                             ),
                             SizedBox(

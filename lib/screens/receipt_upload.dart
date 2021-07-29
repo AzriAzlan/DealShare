@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _AddReceiptState extends State<AddReceipt> {
   PickedFile image;
   File imageFile;
   var storage = FirebaseStorage.instance;
-
+  bool isLoading=false;
 
   _openGallery(BuildContext context) async {
     image = await _picker.getImage(source: ImageSource.gallery);
@@ -70,7 +71,7 @@ class _AddReceiptState extends State<AddReceipt> {
     var imageName = DateTime.now().toString();
     TaskSnapshot snapshot = await storage
         .ref()
-        .child("Receipts/$imageName")
+        .child("Receipts/$uid/$imageName")
         .putFile(imageFile);
 
     if (snapshot.state == TaskState.success) {
@@ -115,9 +116,15 @@ class _AddReceiptState extends State<AddReceipt> {
         ElevatedButton(
 
           onPressed: () async{
+            setState(() {
+              isLoading=true;
+            });
             await uploadImageToFirebase();
+            setState(() {
+              isLoading=false;
+            });
             Navigator.push(context,
-              MaterialPageRoute(builder: (context)=>HomeScreen()),
+              MaterialPageRoute(builder: (context)=>ProfilePage()),
             );
           },
 
@@ -131,7 +138,7 @@ class _AddReceiptState extends State<AddReceipt> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())) :Scaffold(
       appBar: AppBar(
         title: Text('Add an image'),
       ),

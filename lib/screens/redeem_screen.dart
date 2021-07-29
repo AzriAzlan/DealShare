@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/images.dart';
-import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

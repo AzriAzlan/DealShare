@@ -4,6 +4,8 @@ import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'reset_screen.dart';
 import 'register_screen.dart';
+import 'package:dealshare/screens/details_shared_screen.dart';
+import 'package:dealshare/services/dynamicLinkService.dart';
 
 class LoginScreen extends StatefulWidget {
   bool usernameEmpty = false;
@@ -19,8 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool isLoading=false;
 
-  void onLogin() async {
+  final DynamicLinkService _dynamicLinkService = DynamicLinkService();
+  String sharedDeal;
+  String sharedReferrer;
 
+  Future handleDynamicLinks() async {
+    await _dynamicLinkService.handleDynamicLinks();
+    sharedDeal = _dynamicLinkService.getDealId();
+    sharedReferrer = _dynamicLinkService.getReferrerId();
+  }
+
+  void onLogin() async {
     setState(() {
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true
@@ -41,22 +52,32 @@ class _LoginScreenState extends State<LoginScreen> {
           _usernameController.text, _passwordController.text);
       setState(() {
         isLoading=false;
+
+        if (result == null) {
+          widget.verifyFailed = true;
+        }
+        else {
+          widget.verifyFailed = false;
+        }
+
       });
-
+      print(result);
       if (result == null) {
-        print("error signin");
-
         return;
       } else {
+        if (sharedDeal != null && sharedReferrer != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => SharedDetailsPage(dealId: int.parse(sharedDeal), referrer: sharedReferrer,)),
+          );
+        }
 
-        print("signedin");
-        print(result);
-
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+        else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
       }
     }
   }

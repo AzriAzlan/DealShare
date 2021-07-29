@@ -1,6 +1,7 @@
 import 'package:dealshare/images.dart';
-import 'package:dealshare/services/database.dart';
+import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/services/dynamicLinkService.dart';
+import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
@@ -8,15 +9,16 @@ import 'package:share_plus/share_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dealshare/services/dealData.dart';
 
-class DetailsPage extends StatefulWidget {
+class SharedDetailsPage extends StatefulWidget {
   final int dealId;
-  const DetailsPage({Key key, this.dealId}) : super(key: key);
+  final String referrer;
+  const SharedDetailsPage({Key key, this.dealId, this.referrer}) : super(key: key);
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
-class _DetailsPageState extends State<DetailsPage> {
+class _DetailsPageState extends State<SharedDetailsPage> {
 
   final DynamicLinkService _dynamicLinkService = DynamicLinkService();
   final DatabaseService db = new DatabaseService();
@@ -28,9 +30,6 @@ class _DetailsPageState extends State<DetailsPage> {
       sharelink = value;
     }));
   }
-
-
-
 
   List<DealData> data = [];
   var counter = 0;
@@ -66,7 +65,12 @@ class _DetailsPageState extends State<DetailsPage> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
-            onPressed: () => Navigator.of(context).pop()),
+            onPressed: () =>
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              ),
+        ),
         automaticallyImplyLeading: true,
         centerTitle: true,
       ),
@@ -192,15 +196,27 @@ class _DetailsPageState extends State<DetailsPage> {
                   Icon(Icons.remove_red_eye_outlined),
                   GestureDetector(
                     child: Text(" View Promo Code"),
-                    onTap: () async{
+                    onTap: () async {
                       bool result = await db.checkDealClaim(widget.dealId.toString());
                       if (result) {
                         // Already claim deal
-                        // Output : Display the promo code normally
+                          // Output : Display the promo code normally
                       }
                       else {
                         // First time claim deal
                         bool claimResult = await db.claimDeal(widget.dealId.toString());
+                        if (claimResult) {
+                          // Check if the referrer is the same as the current user
+                          String currentUserId = await db.getUserId();
+                          if (currentUserId == widget.referrer) {
+                            // The same person
+                            // No points will be rewarded
+                          }
+                          else {
+                            // Shared by other person or other account
+                            await db.gainPoints(widget.referrer); // Give reward to the referrer
+                          }
+                        }
                       }
                       showDialog(
                           context: context,
@@ -254,7 +270,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     foregroundColor:
                     MaterialStateProperty.all<Color>(Colors.white),
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
                     await getShareLink();
                     Share.share(sharelink);
                   },

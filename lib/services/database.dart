@@ -135,4 +135,48 @@ class DatabaseService {
     return currentPoints.toString();
   }
 
+  String getUserId() {
+
+    final User user = auth.currentUser;
+    final uid = user.uid;
+
+    return uid;
+  }
+
+  Future<bool> checkDealClaim(String dealId) async {
+    final User user = auth.currentUser;
+    final uid = user.uid;
+
+    CollectionReference claimedDealCollection = FirebaseFirestore.instance.collection('UserData').doc(uid).collection('ClaimedDeals');
+    var query = claimedDealCollection.doc(dealId);
+
+    bool result = false;
+
+    await query.get().then((value) {
+      if (value.exists) {
+        result = true;
+      }
+    }).catchError((error) => () {
+      result = false;
+    });
+
+    return result;
+  }
+
+  Future<bool> claimDeal(String dealId) async {
+    final User user = auth.currentUser;
+    final uid = user.uid;
+
+    CollectionReference claimedDealCollection = FirebaseFirestore.instance.collection('UserData').doc(uid).collection('ClaimedDeals');
+    var query = claimedDealCollection.doc(dealId);
+
+    await query.set({
+      'Status': 'Claimed',
+    }).catchError((error) => () {
+      return false;
+    });
+    return true;
+  }
+
+
 }

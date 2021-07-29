@@ -1,4 +1,7 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/screens/login_screen.dart';
+import 'package:dealshare/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Reset extends StatefulWidget {
@@ -10,8 +13,60 @@ class Reset extends StatefulWidget {
 }
 
 class _ResetState extends State<Reset> {
+  final Authenticate _auth = Authenticate();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  bool isLoading=false;
+
+
+  Future<void> resetPass() async {
+
+    setState(() {
+      isLoading=true;
+    });
+   dynamic result = await _auth.changePassword(_usernameController.text, _passwordController.text, _newPasswordController.text);
+//print("This"+result);
+    if(result==2||result==3) {
+
+      setState(() {
+        isLoading=false;
+      });
+    print(result);
+
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: "Unsuccesful password change",
+        onConfirmBtnTap: (){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+        }
+      );
+
+    } else {
+
+      setState(() {
+        isLoading=false;
+      });
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.success,
+        text: "Succesful password change",
+          onConfirmBtnTap: (){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+      );
+
+    }
+
+  }
+
 
 
   @override
@@ -22,7 +77,7 @@ class _ResetState extends State<Reset> {
     // ]);
     //
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    return Scaffold(
+    return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())):Scaffold(
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -38,7 +93,7 @@ class _ResetState extends State<Reset> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Reset Password",
+                      "Change Password",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -50,7 +105,7 @@ class _ResetState extends State<Reset> {
                         child: TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            labelText: "Enter your Username",
+                            labelText: "Enter your Email",
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
@@ -69,7 +124,7 @@ class _ResetState extends State<Reset> {
                           obscureText: true,
                           controller: _passwordController,
                           decoration: InputDecoration(
-                            labelText: "Enter your Password",
+                            labelText: "Enter your Current Password",
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
@@ -90,9 +145,9 @@ class _ResetState extends State<Reset> {
                         width: 300,
                         child: TextField(
                           obscureText: true,
-                          controller: _passwordController,
+                          controller: _newPasswordController,
                           decoration: InputDecoration(
-                            labelText: "Confirm your Password",
+                            labelText: "Enter a new password",
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
@@ -110,16 +165,9 @@ class _ResetState extends State<Reset> {
                     SizedBox(
                       width: 200,
                       child: TextButton(
-                        onPressed: () {
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeScreen()),
-                          );
-
-                        },
+                        onPressed: resetPass,
                         child: Text(
-                          "Reset",
+                          "Change",
                           style: TextStyle(color: Colors.black, fontSize: 25),
                         ),
                         style: ButtonStyle(

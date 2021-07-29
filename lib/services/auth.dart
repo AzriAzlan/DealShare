@@ -130,6 +130,31 @@ class Authenticate {
     }
   }
 
+  //reset password
+Future changePassword(String email ,String password , String newPassword) async{
+
+ User user = FirebaseAuth.instance.currentUser;
+
+ try{
+   UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+   await user.updatePassword(newPassword).then((_) {
+     print("Succesfully changed!");
+
+   }).catchError((error) {
+     print("Cant be changed"+error.toString());
+     return 2;
+   });
+ } on FirebaseAuthException catch (e) {
+   if(e.code=='user-not-found') {
+     print("No user found");
+   } else if(e.code=='wrong-password') {
+     print("Wrong password");
+   }
+   return 3;
+ }
+}
+
+
   //sign out
   Future signOut() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();

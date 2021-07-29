@@ -4,7 +4,6 @@ import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/ScaleRoute.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:dealshare/services/dealData.dart';
 
 class Deals extends StatefulWidget {
@@ -15,29 +14,26 @@ class Deals extends StatefulWidget {
 class _DealsState extends State<Deals> {
   List<DealData> data = [];
   var counter = 0;
-  void fetchData() {
+  void fetchData(){
     FirebaseFirestore.instance
         .collection("Deals")
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((DocumentSnapshot doc) {
-        print(doc.data());
         DealData deals = DealData.fromMap(doc.data());
         setState(() {
           data.add(deals);
           counter = counter + 1;
-          print(counter);
-          print(data[0].promoCode);
-          print(data[1].promoCode);
         });
       });
+      print(counter);
     });
   }
 
   @override
-  void initState() {
-    super.initState();
+  void initState(){
     fetchData();
+    super.initState();
   }
 
   @override
@@ -45,14 +41,6 @@ class _DealsState extends State<Deals> {
     var shortestSide = MediaQuery.of(context).size.shortestSide;
     final bool useMobileLayout = shortestSide < 600;
     Color offwhite = Color(0xfff8f8ff);
-    List<String> images = [
-      Images.nikeLogo,
-      Images.touchGo,
-      Images.starbucks,
-      Images.mcdetails,
-      Images.nikedetails,
-      Images.mcdonalds
-    ];
     var size = MediaQuery.of(context).size;
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     final double itemHeight = useMobileLayout && portrait
@@ -129,7 +117,7 @@ class _DealsState extends State<Deals> {
             ),
           );
         },
-        childCount: 2,
+        childCount: counter,
       ),
     );
   }

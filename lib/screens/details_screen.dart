@@ -41,7 +41,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    return Scaffold(
+    return data.length>0? Scaffold(
       appBar: AppBar(
         title: Text(data[0].title),
         backgroundColor: Colors.cyan,
@@ -153,7 +153,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: Column(
                   children: [
                     Text(
-                      data[0].detail,
+                      data[0].description,
                       style: TextStyle(
                           fontSize: 2 * SizeConfig.heightMultiplier,
                           fontWeight: FontWeight.bold),
@@ -241,6 +241,6 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ),
       ),
-    );
+    ): Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

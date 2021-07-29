@@ -4,6 +4,7 @@ class DealData {
   String validDate;
   String title;
   String promoCode;
+  String description;
   int dealId;
 
   DealData.fromMap(Map<String, dynamic> data) {
@@ -13,5 +14,6 @@ class DealData {
     title = data['Title'];
     promoCode = data['PromoCode'];
     dealId = data['deal_id'];
+    description = data['Description'];
   }
 }

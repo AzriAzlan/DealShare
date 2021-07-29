@@ -17,9 +17,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final Authenticate _auth = Authenticate();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool isLoading=false;
 
   void onLogin() async {
     setState(() {
+      isLoading=true;
+
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true
           : widget.usernameEmpty = false;
@@ -49,8 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onFacebookLogin() async {
+    setState(() {
+      isLoading=true;
+    });
     dynamic result = await _auth.signInWithFacebook();
-
+    setState(() {
+      isLoading=false;
+    });
     if (result == null) {
       print("error signin");
       return;
@@ -66,8 +74,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onGoogleLogin() async {
+    setState(() {
+      isLoading=true;
+    });
     dynamic result = await _auth.signInWithGoogle();
-
+    setState(() {
+      isLoading=false;
+    });
     if (result == null) {
       print("error signin");
       return;
@@ -90,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
-    return Scaffold(
+    return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())):Scaffold(
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -152,8 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             helperText: widget.passwordEmpty
                                 ? "Required"
                                 : widget.verifyFailed
-                                    ? "Password or Username is invalid"
-                                    : "",
+                                ? "Password or Username is invalid"
+                                : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),
@@ -189,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.blue),
+                            MaterialStateProperty.all(Colors.blue),
                           ),
                         ),
                       ),
@@ -198,8 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(children: <Widget>[
                       Expanded(
                           child: Divider(
-                        color: Colors.grey,
-                      )),
+                            color: Colors.grey,
+                          )),
                       Padding(
                         padding: EdgeInsets.all(2 * SizeConfig.widthMultiplier),
                         child: Text(
@@ -210,8 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Expanded(
                           child: Divider(
-                        color: Colors.grey,
-                      )),
+                            color: Colors.grey,
+                          )),
                     ]),
                     SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
                     Padding(
@@ -242,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.blue[900]),
+                            MaterialStateProperty.all(Colors.blue[900]),
                           ),
                         ),
                       ),
@@ -276,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.red[900]),
+                            MaterialStateProperty.all(Colors.red[900]),
                           ),
                         ),
                       ),

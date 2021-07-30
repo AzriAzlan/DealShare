@@ -44,7 +44,7 @@ class _DealsState extends State<Deals> {
     var size = MediaQuery.of(context).size;
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     final double itemHeight = useMobileLayout && portrait
-        ? 24 * SizeConfig.heightMultiplier
+        ? 26 * SizeConfig.heightMultiplier
         : 40 *
         SizeConfig
             .heightMultiplier; //(size.height - kToolbarHeight - 24) / 2;

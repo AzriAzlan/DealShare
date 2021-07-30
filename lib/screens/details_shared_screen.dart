@@ -1,6 +1,8 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
+import 'package:dealshare/screens/receipt_upload.dart';
 import 'package:dealshare/services/dynamicLinkService.dart';
 import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
@@ -241,14 +243,20 @@ class _DetailsPageState extends State<SharedDetailsPage> {
                                   }
                                   else {
                                     // Shared by other person or other account
-                                    await db.gainPoints(widget.referrer); // Give reward to the referrer
+                                    await db.gainPoints(widget.dealId.toString(), widget.referrer); // Give reward to the referrer
                                   }
                                 }
                               }
-                              //print("REDIRECT TO PROFILE");
 
-                              Navigator.of(context, rootNavigator: true)
-                                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+                              CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.info,
+                                  text: "You will now be redirected to upload your receipt!",
+                                  onConfirmBtnTap: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(MaterialPageRoute(builder: (context) => AddReceipt(dealId: widget.dealId,dealTitle: data[0].title,)));
+                                  }
+                              );
 
                             },
                           ));

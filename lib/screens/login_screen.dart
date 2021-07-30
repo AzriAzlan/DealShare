@@ -36,12 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onLogin() async {
 
-    // print("Navigate to: ");
-    // print("Deal : " + widget.sharedDeal);
-    // print("Referrer : " + widget.sharedReferrer);
-
-
-
     setState(() {
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true

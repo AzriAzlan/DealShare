@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/images.dart';
-import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/screens/receipt_upload.dart';
 import 'package:dealshare/services/database.dart';
 import 'package:dealshare/services/dynamicLinkService.dart';
@@ -239,8 +238,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                       .push(MaterialPageRoute(builder: (context) => AddReceipt(dealId: widget.dealId,dealTitle: data[0].title,)));
                                 }
                               );
-
-                              //print("REDIRECT TO PROFILE");
 
                             },
                           ));

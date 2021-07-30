@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: <Widget>[
             SliverAppBar(
               pinned: true,
-              expandedHeight: 26 * SizeConfig.heightMultiplier,
+              expandedHeight: 28 * SizeConfig.heightMultiplier,
               backgroundColor: Colors.cyan,
               flexibleSpace: FlexibleSpaceBar(
                 background: SingleChildScrollView(
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: EdgeInsets.only(top:1.5*SizeConfig.heightMultiplier),
                             child: Text(
-                              "Hot Deals",
+                              "Featured Deals",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           SizedBox(
                             child: DealTile(),
-                            height: 21.5 * SizeConfig.heightMultiplier,
+                            height: 24 * SizeConfig.heightMultiplier,
                             //DealTile(),
                           ),
 

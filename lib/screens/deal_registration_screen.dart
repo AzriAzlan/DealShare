@@ -10,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:dealshare/services/dealData.dart';
 
+import '../services/loading.dart';
+
 var fileName = "";
 String tagLine = "";
 String country = "";
@@ -33,6 +35,7 @@ class DealRegistration extends StatefulWidget {
 class _DealRegistration extends State<DealRegistration> {
   File savedImage;
   File _imageFile;
+  bool loading = false;
   final _dealNameController = TextEditingController();
   final _addressController = TextEditingController();
   final _postCodeController = TextEditingController();
@@ -74,8 +77,9 @@ class _DealRegistration extends State<DealRegistration> {
 
     fileName = basename(_imageFile.path);
     final destination = fileName;
-    await uploadFile(destination, _imageFile, dealName, address, postCode, country,
-        tagLine, promoCode, day, month, year, description);
+    await uploadFile(destination, _imageFile, dealName, address, postCode,
+        country, tagLine, promoCode, day, month, year, description);
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -128,7 +132,7 @@ class _DealRegistration extends State<DealRegistration> {
     };
 
     await FirebaseFirestore.instance.collection('Deals').add(data);
-    return;
+    return "test";
   }
 
   @override
@@ -137,7 +141,9 @@ class _DealRegistration extends State<DealRegistration> {
     //   DeviceOrientation.portraitUp,
     // ]);
 
-    return GestureDetector(
+    return loading
+        ? Loading()
+        : GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
@@ -181,7 +187,8 @@ class _DealRegistration extends State<DealRegistration> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding:
+                        const EdgeInsets.only(left: 10, right: 10),
                         child: Icon(Icons.location_city),
                       ),
                       Text(
@@ -230,7 +237,8 @@ class _DealRegistration extends State<DealRegistration> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding:
+                        const EdgeInsets.only(left: 10, right: 10),
                         child: Icon(Icons.web),
                       ),
                       Text(
@@ -242,7 +250,13 @@ class _DealRegistration extends State<DealRegistration> {
                 ),
                 Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: TextButton(
+                    child: _imageFile != null
+                        ? Image.file(
+                      _imageFile,
+                      width: 450,
+                      height: 400,
+                    )
+                        : TextButton(
                       child: Text('Pick Image'),
                       style: TextButton.styleFrom(
                         primary: Colors.white,
@@ -276,7 +290,8 @@ class _DealRegistration extends State<DealRegistration> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding:
+                        const EdgeInsets.only(left: 10, right: 10),
                         child: Text(
                           "Promo Code : " + promoCode.toUpperCase(),
                           style: TextStyle(fontSize: 25),
@@ -290,7 +305,8 @@ class _DealRegistration extends State<DealRegistration> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding:
+                        const EdgeInsets.only(left: 10, right: 10),
                         child: Icon(Icons.list),
                       ),
                       Text(
@@ -373,6 +389,7 @@ class _DealRegistration extends State<DealRegistration> {
                       style: TextStyle(fontSize: 30),
                     ),
                     onPressed: () {
+                      setState(() => loading = true);
                       uploadImageToFirebase(context);
                     },
                   ),

@@ -9,6 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddReceipt extends StatefulWidget {
+
+  final int dealId;
+  final String dealTitle;
+  const AddReceipt ({ Key key, this.dealId,this.dealTitle }): super(key: key);
+
+
   @override
   _AddReceiptState createState() => _AddReceiptState();
 }
@@ -66,8 +72,11 @@ class _AddReceiptState extends State<AddReceipt> {
   }
 
   Future uploadImageToFirebase() async {
+    final int dealId = widget.dealId;
+    final String dealTitle = widget.dealTitle;
     final User user = auth.currentUser;
     final uid = user.uid;
+    var time = Timestamp.now().toDate();
     var imageName = DateTime.now().toString();
     try{
       TaskSnapshot snapshot = await storage
@@ -81,7 +90,8 @@ class _AddReceiptState extends State<AddReceipt> {
             .collection("UserData")
             .doc("$uid")
             .collection("uploaded_receipts")
-            .add({"url": downloadUrl, "name": imageName,});
+            .add({"url": downloadUrl, "dealId": "$dealId","title": "$dealTitle","uploaded":"$time",
+        });
 
       } else {
         print(

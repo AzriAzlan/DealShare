@@ -32,9 +32,6 @@ class _DetailsPageState extends State<DetailsPage> {
     }));
   }
 
-
-
-
   List<DealData> data = [];
   var counter = 0;
   void fetchData() {
@@ -239,7 +236,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 text: "You will now be redirected to upload your receipt!",
                                 onConfirmBtnTap: () {
                                   Navigator.of(context, rootNavigator: true)
-                                      .push(MaterialPageRoute(builder: (context) => AddReceipt()));
+                                      .push(MaterialPageRoute(builder: (context) => AddReceipt(dealId: widget.dealId,dealTitle: data[0].title,)));
                                 }
                               );
 

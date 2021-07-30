@@ -1,5 +1,6 @@
 import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
+import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/services/dynamicLinkService.dart';
 import 'package:dealshare/services/database.dart';
 import 'package:dealshare/size_config.dart';
@@ -26,7 +27,7 @@ class _DetailsPageState extends State<SharedDetailsPage> {
 
   void getShareLink() async {
     String referrer = await db.getUserId();
-    await _dynamicLinkService.createShareLink("10",referrer).then((value) => setState(() {
+    await _dynamicLinkService.createShareLink(widget.dealId.toString(),referrer).then((value) => setState(() {
       sharelink = value;
     }));
   }
@@ -196,28 +197,7 @@ class _DetailsPageState extends State<SharedDetailsPage> {
                   Icon(Icons.remove_red_eye_outlined),
                   GestureDetector(
                     child: Text(" View Promo Code"),
-                    onTap: () async {
-                      bool result = await db.checkDealClaim(widget.dealId.toString());
-                      if (result) {
-                        // Already claim deal
-                          // Output : Display the promo code normally
-                      }
-                      else {
-                        // First time claim deal
-                        bool claimResult = await db.claimDeal(widget.dealId.toString());
-                        if (claimResult) {
-                          // Check if the referrer is the same as the current user
-                          String currentUserId = await db.getUserId();
-                          if (currentUserId == widget.referrer) {
-                            // The same person
-                            // No points will be rewarded
-                          }
-                          else {
-                            // Shared by other person or other account
-                            await db.gainPoints(widget.referrer); // Give reward to the referrer
-                          }
-                        }
-                      }
+                    onTap: () {
                       showDialog(
                           context: context,
                           builder: (_) => AssetGiffyDialog(
@@ -233,7 +213,7 @@ class _DetailsPageState extends State<SharedDetailsPage> {
                             description: Text(
                               'Valid until ' +
                                   data[0].validDate +
-                                  ' Present this screen to cashier to enjoy voucher.',
+                                  ' Present this screen to cashier to enjoy voucher.Press Proceed only when voucher used.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 1.3 * SizeConfig.textMultiplier,
@@ -241,9 +221,35 @@ class _DetailsPageState extends State<SharedDetailsPage> {
                             ),
                             entryAnimation: EntryAnimation.BOTTOM_RIGHT,
                             buttonOkColor: Colors.cyan,
-                            onOkButtonPressed: () {
+                            buttonOkText: Text("Proceed"),
+                            onOkButtonPressed: () async {
+
+                              bool result = await db.checkDealClaim(widget.dealId.toString());
+                              if (result) {
+                                // Already claim deal
+                                // Output : Display the promo code normally
+                              }
+                              else {
+                                // First time claim deal
+                                bool claimResult = await db.claimDeal(widget.dealId.toString());
+                                if (claimResult) {
+                                  // Check if the referrer is the same as the current user
+                                  String currentUserId = await db.getUserId();
+                                  if (currentUserId == widget.referrer) {
+                                    // The same person
+                                    // No points will be rewarded
+                                  }
+                                  else {
+                                    // Shared by other person or other account
+                                    await db.gainPoints(widget.referrer); // Give reward to the referrer
+                                  }
+                                }
+                              }
+                              //print("REDIRECT TO PROFILE");
+
                               Navigator.of(context, rootNavigator: true)
-                                  .pop();
+                                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+
                             },
                           ));
                     },

@@ -69,26 +69,32 @@ class _AddReceiptState extends State<AddReceipt> {
     final User user = auth.currentUser;
     final uid = user.uid;
     var imageName = DateTime.now().toString();
-    TaskSnapshot snapshot = await storage
-        .ref()
-        .child("Receipts/$uid/$imageName")
-        .putFile(imageFile);
+    try{
+      TaskSnapshot snapshot = await storage
+          .ref()
+          .child("Receipts/$uid/$imageName")
+          .putFile(imageFile);
+      if (snapshot.state == TaskState.success) {
+        final String downloadUrl =
+        await snapshot.ref.getDownloadURL();
+        await FirebaseFirestore.instance
+            .collection("UserData")
+            .doc("$uid")
+            .collection("uploaded_receipts")
+            .add({"url": downloadUrl, "name": imageName,});
 
-    if (snapshot.state == TaskState.success) {
-      final String downloadUrl =
-      await snapshot.ref.getDownloadURL();
-      await FirebaseFirestore.instance
-          .collection("UserData")
-          .doc("$uid")
-          .collection("uploaded_receipts")
-          .add({"url": downloadUrl, "name": imageName,});
+      } else {
+        print(
+            'Error from image repo ${snapshot.state.toString()}');
+        throw ('This file is not an image');
+      }
 
-    } else {
-      print(
-          'Error from image repo ${snapshot.state.toString()}');
-      throw ('This file is not an image');
+    } catch(e) {
+      setState(() {
+        isLoading=false;
+      });
+      print(e);
     }
-
   }
 
   Widget _determineView() {
@@ -140,7 +146,10 @@ class _AddReceiptState extends State<AddReceipt> {
   Widget build(BuildContext context) {
     return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())) :Scaffold(
       appBar: AppBar(
-        title: Text('Add an image'),
+        title: Text('Upload Receipt'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.cyan,
       ),
       body: SingleChildScrollView(
         child: Container(

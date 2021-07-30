@@ -11,6 +11,9 @@ class LoginScreen extends StatefulWidget {
   bool usernameEmpty = false;
   bool passwordEmpty = false;
   bool verifyFailed = false;
+  String sharedDeal;
+  String sharedReferrer;
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -22,16 +25,23 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading=false;
 
   final DynamicLinkService _dynamicLinkService = DynamicLinkService();
-  String sharedDeal;
-  String sharedReferrer;
+
 
   Future handleDynamicLinks() async {
-    await _dynamicLinkService.handleDynamicLinks();
-    sharedDeal = _dynamicLinkService.getDealId();
-    sharedReferrer = _dynamicLinkService.getReferrerId();
+    await _dynamicLinkService.handleDynamicLinks().then((value) => setState(() {
+      widget.sharedDeal = _dynamicLinkService.getDealId();
+      widget.sharedReferrer = _dynamicLinkService.getReferrerId();
+    }));
   }
 
   void onLogin() async {
+
+    // print("Navigate to: ");
+    // print("Deal : " + widget.sharedDeal);
+    // print("Referrer : " + widget.sharedReferrer);
+
+
+
     setState(() {
       _usernameController.text.isEmpty
           ? widget.usernameEmpty = true
@@ -65,10 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
       if (result == null) {
         return;
       } else {
-        if (sharedDeal != null && sharedReferrer != null) {
+        if (widget.sharedDeal != null && widget.sharedReferrer != null) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => SharedDetailsPage(dealId: int.parse(sharedDeal), referrer: sharedReferrer,)),
+            MaterialPageRoute(builder: (context) => SharedDetailsPage(dealId: int.parse(widget.sharedDeal), referrer: widget.sharedReferrer,)),
           );
         }
 
@@ -128,11 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    // ]);
-    //
-    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
+    handleDynamicLinks();
 
     return isLoading? Scaffold(body: Center(child: CircularProgressIndicator())):Scaffold(
       body: GestureDetector(

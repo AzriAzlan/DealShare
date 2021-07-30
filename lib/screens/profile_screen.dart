@@ -213,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Pending",
+                            "My Activity",
                             style: TextStyle(
                               color: Colors.blueAccent,
                               fontStyle: FontStyle.normal,

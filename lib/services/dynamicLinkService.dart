@@ -42,7 +42,7 @@ class DynamicLinkService {
       }
     }
     else { // No link
-      print('FUCK');
+      //print('FUCK');
     }
   }
 

@@ -1,4 +1,7 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dealshare/images.dart';
+import 'package:dealshare/screens/profile_screen.dart';
+import 'package:dealshare/screens/receipt_upload.dart';
 import 'package:dealshare/services/database.dart';
 import 'package:dealshare/services/dynamicLinkService.dart';
 import 'package:dealshare/size_config.dart';
@@ -24,7 +27,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   void getShareLink() async {
     String referrer = await db.getUserId();
-    await _dynamicLinkService.createShareLink("10",referrer).then((value) => setState(() {
+    await _dynamicLinkService.createShareLink(widget.dealId.toString(),referrer).then((value) => setState(() {
       sharelink = value;
     }));
   }
@@ -192,16 +195,8 @@ class _DetailsPageState extends State<DetailsPage> {
                   Icon(Icons.remove_red_eye_outlined),
                   GestureDetector(
                     child: Text(" View Promo Code"),
-                    onTap: () async{
-                      bool result = await db.checkDealClaim(widget.dealId.toString());
-                      if (result) {
-                        // Already claim deal
-                        // Output : Display the promo code normally
-                      }
-                      else {
-                        // First time claim deal
-                        bool claimResult = await db.claimDeal(widget.dealId.toString());
-                      }
+                    onTap: (){
+
                       showDialog(
                           context: context,
                           builder: (_) => AssetGiffyDialog(
@@ -217,7 +212,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             description: Text(
                               'Valid until ' +
                                   data[0].validDate +
-                                  ' Present this screen to cashier to enjoy voucher.',
+                                  ' Present this screen to cashier to enjoy voucher.Press Proceed only when voucher used.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 1.3 * SizeConfig.textMultiplier,
@@ -225,9 +220,31 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             entryAnimation: EntryAnimation.BOTTOM_RIGHT,
                             buttonOkColor: Colors.cyan,
-                            onOkButtonPressed: () {
-                              Navigator.of(context, rootNavigator: true)
-                                  .pop();
+                            buttonOkText: Text("Proceed"),
+                            onOkButtonPressed: () async {
+
+                              bool result = await db.checkDealClaim(widget.dealId.toString());
+                              if (result) {
+                                // Already claim deal
+                                // Output : Display the promo code normally
+                              }
+                              else {
+                                // First time claim deal
+                                bool claimResult = await db.claimDeal(widget.dealId.toString());
+                              }
+
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.info,
+                                text: "You will now be redirected to upload your receipt!",
+                                onConfirmBtnTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(MaterialPageRoute(builder: (context) => AddReceipt()));
+                                }
+                              );
+
+                              //print("REDIRECT TO PROFILE");
+
                             },
                           ));
                     },

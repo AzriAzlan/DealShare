@@ -80,32 +80,8 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  // void fetchReceipts(){
-  //   final User user = auth.currentUser;
-  //   final uid = user.uid;
-  //   List<String> all;
-  //   String dealNum;
-  //
-  //   FirebaseFirestore.instance
-  //       .collection("UserData")
-  //       .doc("$uid")
-  //       .collection("uploaded_receipts")
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     querySnapshot.docs.forEach((DocumentSnapshot doc) {
-  //       setState(() {
-  //         dealNum=doc.get("dealId");
-  //         //all.add(dealNum);
-  //       });
-  //     });
-  //   });
-  //   print(dealNum);
-  //
-  // }
-
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       body: Container(
@@ -271,6 +247,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           return SingleChildScrollView(
                             child: GestureDetector(
                               onTap: () {
+                                String uploaded = data[index].uploaded;
+
                                 showDialog(
                                     context: context,
                                     builder: (_) => AssetGiffyDialog(
@@ -278,25 +256,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                          data[index].url
                                       ),
                                       title: Text(
-                                        'Received on 21/1/2021',
+                                        'Redeemed on $uploaded',
                                         style: TextStyle(
                                             fontSize: 1.8*SizeConfig.textMultiplier, fontWeight: FontWeight.w600),
                                       ),
                                       description: Text(
-                                        'Click OK to proceed to upload receipt as proof of payment.',
+                                        'Deal: '+data[index].title,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 1.3*SizeConfig.textMultiplier,
                                         ),
                                       ),
                                       entryAnimation: EntryAnimation.BOTTOM_RIGHT,
-                                      buttonOkColor: Colors.cyan,
-                                      onOkButtonPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => AddReceipt()),
-                                        );
-                                      },
+                                      buttonCancelColor: Colors.cyan,
+                                      buttonCancelText: Text("OK"),
+                                      onlyCancelButton: true,
+                                      // onOkButtonPressed: () {
+                                      //   Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(builder: (context) => AddReceipt()),
+                                      //   );
+                                      // },
                                     ));
                               },
                               child: Container(

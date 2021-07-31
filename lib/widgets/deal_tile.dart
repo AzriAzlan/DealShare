@@ -33,6 +33,7 @@ class _DealTileState extends State<DealTile> {
   void fetchData(){
     FirebaseFirestore.instance
         .collection("Deals")
+        .where("deal_id",isGreaterThan: 5)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((DocumentSnapshot doc) {

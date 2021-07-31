@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/services/dealData.dart';
 import 'package:dealshare/size_config.dart';
@@ -25,6 +24,11 @@ class _DealTileState extends State<DealTile> {
 
   List<DealData> data = [];
   var counter = 0;
+
+  Future<int> fetchShares(int did) async {
+    var myDoc = await FirebaseFirestore.instance.collection('Referral').doc('Deal_$did').collection('List').get();
+    return (myDoc.docs.length);
+  }
 
   void fetchData(){
     FirebaseFirestore.instance
@@ -57,7 +61,7 @@ class _DealTileState extends State<DealTile> {
     final bool useMobileLayout = shortestSide < 600;
     var portrait = MediaQuery.of(context).orientation==Orientation.portrait;
 
-    return isLoading?Scaffold(backgroundColor: Colors.cyan, body: Center(child: SizedBox(width: 30 ,child: LinearProgressIndicator()))):Container(
+    return data.length>0?Container(
       height: 24 * SizeConfig.heightMultiplier,
       //color: Colors.red,
       child: Swiper(
@@ -69,7 +73,7 @@ class _DealTileState extends State<DealTile> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        ScaleRoute(page: DetailsPage()));
+                        ScaleRoute(page: DetailsPage(dealId: data[index].dealId)));
                   },
                   child: Padding(
                     padding: EdgeInsets.all(0.6 * SizeConfig.heightMultiplier),
@@ -82,23 +86,35 @@ class _DealTileState extends State<DealTile> {
                           borderRadius: BorderRadius.circular(
                               2 * SizeConfig.heightMultiplier),
                           child: Image.network(
-                            data[index%2].image,
+                            data[index].image,
                             width: useMobileLayout&&portrait?17 * SizeConfig.widthMultiplier:14* SizeConfig.widthMultiplier,
                           ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              Images.fiveStar,
-                              width: 17 * SizeConfig.widthMultiplier,
+
+                            FittedBox(child: FutureBuilder<int>(
+                              future: fetchShares(data[index].dealId),
+                              builder: (context,snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting: return new Text('Successful Shares: ...');
+                                  default:
+                                    if (snapshot.hasError)
+                                      return new Text('');
+                                    else
+                                      return new Text('Successful Shares: ${snapshot.data}');
+                                }
+                              },
+                            )
+
                             ),
-                            //FittedBox(child: Text("45 Ratings")),
+                            // FittedBox(child: Text("45 Ratings")),
                           ],
                         ),
                         FittedBox(
                           child: Text(
-                            data[index%2].detail,style: TextStyle(fontWeight: FontWeight.bold),
+                            data[index].detail,style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
 
@@ -107,7 +123,7 @@ class _DealTileState extends State<DealTile> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Valid till "),
-                            Text(data[index%2].validDate),
+                            Text(data[index].validDate),
                           ],
                         ),
                         //SizedBox(height: 1.6 * SizeConfig.heightMultiplier),
@@ -128,13 +144,13 @@ class _DealTileState extends State<DealTile> {
             ),
           );
         },
-        itemCount: 5,
+        itemCount: counter,
         viewportFraction: 0.7,
         scale: 0.8,
         itemWidth: MediaQuery.of(context).size.width,
         layout: SwiperLayout.STACK,
       ),
-    );
+    ): Scaffold(body: Center(child: CircularProgressIndicator()));
 
   }
 }

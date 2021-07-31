@@ -44,7 +44,7 @@ class _RedeempageState extends State<Redeempage> {
         context: context,
         type: CoolAlertType.error,
         title: "",
-        text: 'Oops. It seems like you don\'t have enough points',
+        text: 'Sorry, it seems like you don\'t have enough points',
         confirmBtnText: 'Okay',
         confirmBtnColor: Colors.green,
         cancelBtnTextStyle: TextStyle(
@@ -70,9 +70,14 @@ class _RedeempageState extends State<Redeempage> {
         ),
         onConfirmBtnTap: ()async {
           int amount = 500;
-          await db.deductPoints(amount);
+          bool result = await db.deductPoints(amount);
           Navigator.pop(context);
-
+          if (result) {
+            displaySuccess();
+          }
+          else {
+            displayFailed();
+          }
         });
   }
 
@@ -134,7 +139,7 @@ class _RedeempageState extends State<Redeempage> {
             ),
             GestureDetector(
               onTap: () {
-                  redeem();
+                redeem();
               },
               child: Container(
                 height: 100,
@@ -148,7 +153,7 @@ class _RedeempageState extends State<Redeempage> {
                     ]),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -169,7 +174,7 @@ class _RedeempageState extends State<Redeempage> {
                           Text(
                             'Valid til 15/5/2021',
                             style:
-                                const TextStyle(fontSize: 12, color: Colors.grey),
+                            const TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ],
                       ),
@@ -200,7 +205,7 @@ class _RedeempageState extends State<Redeempage> {
                       ]),
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -221,7 +226,7 @@ class _RedeempageState extends State<Redeempage> {
                             Text(
                               'valid till 21/5/2021',
                               style:
-                                  const TextStyle(fontSize: 12, color: Colors.grey),
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -251,7 +256,7 @@ class _RedeempageState extends State<Redeempage> {
                       ]),
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -272,7 +277,7 @@ class _RedeempageState extends State<Redeempage> {
                             Text(
                               'Valid till 25/5/2021',
                               style:
-                                  const TextStyle(fontSize: 12, color: Colors.grey),
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                             ),
                           ],
                         ),

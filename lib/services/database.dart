@@ -30,7 +30,7 @@ class DatabaseService {
         print(e);
       });
       final Map<String, String> pointData = {
-        'Generation':'0',
+        'Total':'0',
         'Points': '0',
       };
       database.collection('UserPoints').doc('$authid').set(pointData).catchError((e) {
@@ -68,45 +68,13 @@ class DatabaseService {
     return userDetails;
   }
 
-  Future<void> gainPointsOld(String recipientId) async {
-
-    final CollectionReference pointCollection = FirebaseFirestore.instance.collection('UserPoints');
-    var query = pointCollection.doc(recipientId);
-
-    // 3 generations latest
-    String generation1, generation2, generation3;
-    final CollectionReference referralCollection = FirebaseFirestore.instance.collection('Referral');
-
-
-    int generation = 0;
-    int plus = 0;
-    int recipientPoints = 0;
-
-    await query.get().then((value) {
-      recipientPoints = int.parse(value['Points']);
-      generation = int.parse(value['Generation']);
-    });
-
-    if (generation == 1) {
-      plus = 5;
-    }
-    else if (generation == 2) {
-      plus = 2;
-    }
-    else if (generation == 3) {
-      plus = 1;
-    }
-    int balance = recipientPoints + plus;
-
-    await query.update({"Points": balance.toString()});
-  }
-
   Future<void> gainPoints(String dealId, String recipientId) async {
 
     // 3 generations UID
     String gen1, gen2, gen3;
     // 3 generations Points
     int gen1points, gen2points, gen3points;
+    int gen1total, gen2total, gen3total;
 
     // Checking if there's 1st generation
     final CollectionReference referralCollection = FirebaseFirestore.instance.collection('Referral').doc('Deal_' + dealId).collection('List');
@@ -145,21 +113,35 @@ class DatabaseService {
         pointQuery = pointCollection.doc(gen3);
         await pointQuery.get().then((value) {
           gen3points = int.parse(value['Points']);
+          gen3total = int.parse(value['Total']);
+
         });
-        await pointQuery.update({"Points" : (gen3points + 1).toString()});
+        await pointQuery.update({
+          "Points" : (gen3points + 1).toString(),
+          "Total" : (gen3total + 1).toString()
+        });
       }
 
       pointQuery = pointCollection.doc(gen2);
       await pointQuery.get().then((value) {
         gen2points = int.parse(value['Points']);
+        gen2total = int.parse(value['Total']);
       });
-      await pointQuery.update({"Points" : (gen2points + 2).toString()});
+      await pointQuery.update({
+        "Points" : (gen2points + 2).toString(),
+        "Total" : (gen2total + 2).toString()
+      });
 
       pointQuery = pointCollection.doc(gen1);
       await pointQuery.get().then((value) {
         gen1points = int.parse(value['Points']);
+        gen1total = int.parse(value['Total']);
+
       });
-      await pointQuery.update({"Points" : (gen1points + 5).toString()});
+      await pointQuery.update({
+        "Points" : (gen1points + 5).toString(),
+        "Total" : (gen1total + 5).toString()
+      });
 
       // Add referral data to firebase
       if (gen3 != null) {
@@ -183,14 +165,23 @@ class DatabaseService {
       pointQuery = pointCollection.doc(gen3);
       await pointQuery.get().then((value) {
         gen3points = int.parse(value['Points']);
+        gen3total = int.parse(value['Total']);
+
       });
-      await pointQuery.update({"Points" : (gen3points + 1).toString()});
+      await pointQuery.update({
+        "Points" : (gen3points + 1).toString(),
+        "Total" : (gen3total + 1).toString()
+      });
 
       pointQuery = pointCollection.doc(gen2);
       await pointQuery.get().then((value) {
         gen2points = int.parse(value['Points']);
+        gen2total = int.parse(value['Total']);
       });
-      await pointQuery.update({"Points" : (gen2points + 2).toString()});
+      await pointQuery.update({
+        "Points" : (gen2points + 2).toString(),
+        "Total" : (gen2total + 2).toString()
+      });
 
       // Add referral data to firebase
       referralCollection.doc().set({
@@ -240,7 +231,20 @@ class DatabaseService {
     return currentPoints.toString();
   }
 
-  String getUserId() {
+  Future<String> retrieveTotalPoint() async {
+
+    final User user = auth.currentUser;
+    final uid = user.uid;
+    final CollectionReference pointCollection = FirebaseFirestore.instance.collection('UserPoints');
+    var query = pointCollection.doc(uid);
+    int totalPoints = 0;
+    await query.get().then((value) {
+      totalPoints = int.parse(value['Total']);
+    });
+    return totalPoints.toString();
+  }
+
+    String getUserId() {
 
     final User user = auth.currentUser;
     final uid = user.uid;

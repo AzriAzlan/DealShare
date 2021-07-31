@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
-import 'package:dealshare/screens/receipt_upload.dart';
+import 'package:dealshare/screens/redeem_screen.dart';
 import 'package:dealshare/screens/saved_deals.dart';
 import 'package:dealshare/services/ReceiptData.dart';
 import 'package:dealshare/services/database.dart';
@@ -29,6 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String points = "...";
   List<ReceiptData> data = [];
   var counter = 0;
+  String userClass = "...";
+
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
@@ -49,6 +50,18 @@ class _ProfilePageState extends State<ProfilePage> {
     await DatabaseService().retrievePoint().then((value) => setState(() {
           points = value;
         }));
+
+    await DatabaseService().retrieveTotalPoint().then((value) => setState(() {
+      if (int.parse(value) < 1000) {
+        userClass = "Beginner";
+      }
+      else if (int.parse(value) < 5000) {
+        userClass = "Intermediate";
+      }
+      else {
+        userClass = "Expert";
+      }
+    }));
 
     setState(() {
       userDetails = userDetails;
@@ -161,28 +174,36 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          "Current Points",
-                                          style: TextStyle(
-                                            color: Colors.blueAccent,
-                                            //fontSize: 22.0,
-                                            fontWeight: FontWeight.bold,
+                                    child: GestureDetector(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Current Points",
+                                            style: TextStyle(
+                                              color: Colors.blueAccent,
+                                              //fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              0.4 * SizeConfig.heightMultiplier,
-                                        ),
-                                        Text(
-                                          "$points",
-                                          style: TextStyle(
-                                            //fontSize: 20.0,
-                                            color: Colors.cyan,
+                                          SizedBox(
+                                            height:
+                                                0.4 * SizeConfig.heightMultiplier,
                                           ),
-                                        )
-                                      ],
+                                          Text(
+                                            "$points",
+                                            style: TextStyle(
+                                              //fontSize: 20.0,
+                                              color: Colors.cyan,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => Redeempage()),
+                                        );
+                                      },
                                     ),
                                   ),
                                   Expanded(
@@ -201,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               0.4 * SizeConfig.heightMultiplier,
                                         ),
                                         Text(
-                                          "Expert sharer",
+                                          userClass,
                                           style: TextStyle(
                                             //fontSize: 20.0,
                                             color: Colors.cyan,
@@ -226,6 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+
                     Text(
                       "My Activity",
                       style: TextStyle(

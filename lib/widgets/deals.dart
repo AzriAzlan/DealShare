@@ -13,7 +13,9 @@ class Deals extends StatefulWidget {
 
 class _DealsState extends State<Deals> {
   List<DealData> data = [];
+  List<int> shareData = [];
   var counter = 0;
+
   void fetchData(){
     FirebaseFirestore.instance
         .collection("Deals")
@@ -28,6 +30,11 @@ class _DealsState extends State<Deals> {
       });
       print(counter);
     });
+  }
+  //
+  Future<int> fetchShares(int did) async {
+    var myDoc = await FirebaseFirestore.instance.collection('Referral').doc('Deal_$did').collection('List').get();
+    return (myDoc.docs.length);
   }
 
   @override
@@ -92,10 +99,22 @@ class _DealsState extends State<Deals> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        Images.fiveStar,
-                        width: 17 * SizeConfig.widthMultiplier,
-                      ),
+
+                     FittedBox(child: FutureBuilder<int>(
+                      future: fetchShares(data[index].dealId),
+                      builder: (context,snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting: return new Text('Successful Shares: ...');
+                          default:
+                            if (snapshot.hasError)
+                              return new Text('');
+                            else
+                              return new Text('Successful Shares: ${snapshot.data}');
+                        }
+                      },
+                     )
+
+                     ),
                       // FittedBox(child: Text("45 Ratings")),
                     ],
                   ),

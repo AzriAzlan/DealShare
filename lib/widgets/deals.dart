@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/details_screen.dart';
 import 'package:dealshare/size_config.dart';
 import 'package:dealshare/widgets/ScaleRoute.dart';
@@ -13,10 +12,13 @@ class Deals extends StatefulWidget {
 
 class _DealsState extends State<Deals> {
   List<DealData> data = [];
-  List<int> shareData = [];
+  List<String> dates;
+
   var counter = 0;
 
   void fetchData(){
+    var now = new DateTime.now();
+
     FirebaseFirestore.instance
         .collection("Deals")
         .get()
@@ -24,8 +26,11 @@ class _DealsState extends State<Deals> {
       querySnapshot.docs.forEach((DocumentSnapshot doc) {
         DealData deals = DealData.fromMap(doc.data());
         setState(() {
-          data.add(deals);
-          counter = counter + 1;
+          var checkedDate = DateTime.parse(deals.validDate);
+          if (checkedDate.compareTo(now)>0) {
+            data.add(deals);
+            counter = counter + 1;
+          }
         });
       });
       print(counter);

@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: EdgeInsets.only(top:1.5*SizeConfig.heightMultiplier),
                             child: Text(
-                              "Featured Deals",
+                              "Local Deals",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

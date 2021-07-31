@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:dealshare/services/dealData.dart';
+import 'package:intl/intl.dart';
 
 import '../services/loading.dart';
 
@@ -19,6 +20,7 @@ String postCode = "";
 String address = "";
 String dealName = "";
 String promoCode = "";
+String date = "";
 String year = "";
 String day = "";
 String month = "";
@@ -34,8 +36,13 @@ class DealRegistration extends StatefulWidget {
 
 class _DealRegistration extends State<DealRegistration> {
   File savedImage;
+  final _formKey = GlobalKey<FormState>();
+  DateTime _dateTime;
+  String chosenDate;
   File _imageFile;
   bool loading = false;
+  bool hasImage = false;
+  bool hasDate = false;
   final _dealNameController = TextEditingController();
   final _addressController = TextEditingController();
   final _postCodeController = TextEditingController();
@@ -55,6 +62,7 @@ class _DealRegistration extends State<DealRegistration> {
     );
     setState(() {
       _imageFile = File(pickedFile.path);
+      hasImage = true;
     });
   }
 
@@ -78,7 +86,7 @@ class _DealRegistration extends State<DealRegistration> {
     fileName = basename(_imageFile.path);
     final destination = fileName;
     await uploadFile(destination, _imageFile, dealName, address, postCode,
-        country, tagLine, promoCode, day, month, year, description);
+        country, tagLine, promoCode, chosenDate, description);
 
     Navigator.pushReplacement(
       context,
@@ -101,12 +109,10 @@ class _DealRegistration extends State<DealRegistration> {
       String country,
       String tagLine,
       String promoCode,
-      String day,
-      String month,
-      String year,
+      String chosenDate,
       String description) async {
     TaskSnapshot snapshot =
-    await storage.ref().child(destination).putFile(file);
+        await storage.ref().child(destination).putFile(file);
     final String downloadUrl = await snapshot.ref.getDownloadURL();
     await FirebaseFirestore.instance
         .collection("Deals")
@@ -127,7 +133,7 @@ class _DealRegistration extends State<DealRegistration> {
       "Image": downloadUrl,
       "deal_id": counter + 1,
       "PromoCode": promoCode.toUpperCase(),
-      "ValidDate": day + "/" + month + "/" + year,
+      "ValidDate": chosenDate,
       "Description": description
     };
 
@@ -144,261 +150,306 @@ class _DealRegistration extends State<DealRegistration> {
     return loading
         ? Loading()
         : GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.cyan,
-          centerTitle: true,
-          title: Text("Deal Registration"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    //ImageInput(savedImages),
-
-                    Column(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.cyan,
+                centerTitle: true,
+                title: Text("Deal Registration"),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
                       children: [
+                        Row(
+                          children: [
+                            //ImageInput(savedImages),
+
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 27 * SizeConfig.widthMultiplier,
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter text';
+                                        }
+                                        return null;
+                                      },
+                                      controller: _dealNameController,
+                                      decoration: InputDecoration(
+                                        labelText: "Deal Name",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Icon(Icons.location_city),
+                              ),
+                              Text(
+                                "Company",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter text';
+                              }
+                              return null;
+                            },
+                            controller: _addressController,
+                            decoration: InputDecoration(
+                              labelText: "Address",
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: SizedBox(
+                                width: 13 * SizeConfig.widthMultiplier,
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter text';
+                                    }
+                                    return null;
+                                  },
+                                  controller: _postCodeController,
+                                  decoration: InputDecoration(
+                                    labelText: "Postcode",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 34 * SizeConfig.widthMultiplier,
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter text';
+                                  }
+                                  return null;
+                                },
+                                controller: _countryController,
+                                decoration: InputDecoration(
+                                  labelText: "Country",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Icon(Icons.web),
+                              ),
+                              Text(
+                                "Thumbnail Image",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: _imageFile != null
+                                ? Image.file(
+                                    _imageFile,
+                                    width: 450,
+                                    height: 400,
+                                  )
+                                : Column(
+                                  children: [
+                                    Text('No Image chosen'),
+                                    TextButton(
+                                        child: Text('Pick Image'),
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.teal,
+                                          onSurface: Colors.grey,
+                                        ),
+                                        onPressed: _openGallery,
+                                      )
+                                  ],
+                                )),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 10),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Tag Line",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter text';
+                              }
+                              return null;
+                            },
+                            controller: _tagLineController,
+                            decoration: InputDecoration(
+                              labelText: "Enter your tag line here...",
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  "Promo Code : " + promoCode.toUpperCase(),
+                                  style: TextStyle(fontSize: 25),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Icon(Icons.list),
+                              ),
+                              Text(
+                                "Description",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: SizedBox(
-                            width: 27 * SizeConfig.widthMultiplier,
-                            child: TextField(
-                              controller: _dealNameController,
+                            height: 70,
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter text';
+                                }
+                                return null;
+                              },
+                              controller: _descriptionController,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
                               decoration: InputDecoration(
-                                labelText: "Deal Name",
+                                labelText: "Enter description here",
                               ),
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 10),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Valid Until :-",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 10, bottom: 20),
+                          child: Column(
+                            children: [
+                              Text(chosenDate == null
+                                  ? 'No date picked yet'
+                                  : chosenDate.toString()),
+                              TextButton(
+                                  child: Text('Pick a date'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.teal,
+                                    onSurface: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2030))
+                                        .then((date) {
+                                      setState(() {
+                                        _dateTime = date;
+                                        chosenDate = DateFormat("yyyy-MM-dd")
+                                            .format(date);
+                                        hasDate = true;
+                                      });
+                                    });
+                                  })
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                              onSurface: Colors.grey,
+                            ),
+                            child: Text(
+                              "Upload",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState.validate() == true && hasDate == true && hasImage == true) {
+                                setState(() => loading = true);
+                                uploadImageToFirebase(context);
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10),
-                        child: Icon(Icons.location_city),
-                      ),
-                      Text(
-                        "Company",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: TextField(
-                    controller: _addressController,
-                    decoration: InputDecoration(
-                      labelText: "Address",
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                        width: 13 * SizeConfig.widthMultiplier,
-                        child: TextField(
-                          controller: _postCodeController,
-                          decoration: InputDecoration(
-                            labelText: "Postcode",
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 34 * SizeConfig.widthMultiplier,
-                      child: TextField(
-                        controller: _countryController,
-                        decoration: InputDecoration(
-                          labelText: "Country",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10),
-                        child: Icon(Icons.web),
-                      ),
-                      Text(
-                        "Thumbnail Image",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: _imageFile != null
-                        ? Image.file(
-                      _imageFile,
-                      width: 450,
-                      height: 400,
-                    )
-                        : TextButton(
-                      child: Text('Pick Image'),
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.teal,
-                        onSurface: Colors.grey,
-                      ),
-                      onPressed: _openGallery,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Tag Line",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: TextField(
-                    controller: _tagLineController,
-                    decoration: InputDecoration(
-                      labelText: "Enter your tag line here...",
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10),
-                        child: Text(
-                          "Promo Code : " + promoCode.toUpperCase(),
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10),
-                        child: Icon(Icons.list),
-                      ),
-                      Text(
-                        "Description",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: SizedBox(
-                    height: 120,
-                    child: TextFormField(
-                      controller: _descriptionController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        labelText: "Enter description here",
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Valid Until",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                        width: 70,
-                        child: TextField(
-                          controller: _dayController,
-                          decoration: InputDecoration(
-                            labelText: "Day",
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                        width: 70,
-                        child: TextField(
-                          controller: _monthController,
-                          decoration: InputDecoration(
-                            labelText: "Month",
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                        width: 120,
-                        child: TextField(
-                          controller: _yearController,
-                          decoration: InputDecoration(
-                            labelText: "Year",
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextButton(
-                    child: Text(
-                      "Upload",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                    onPressed: () {
-                      setState(() => loading = true);
-                      uploadImageToFirebase(context);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

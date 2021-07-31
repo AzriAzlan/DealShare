@@ -6,6 +6,8 @@ class DatabaseService {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final String uid;
+  List favourite;
+
   DatabaseService({this.uid});
 
 
@@ -291,5 +293,44 @@ class DatabaseService {
     return true;
   }
 
+  Future<bool> checkFav(int dealId) async{
+    final User user = auth.currentUser;
+    final uid = user.uid;
+    var myDoc = await FirebaseFirestore.instance.collection('UserData')
+        .doc('$uid')
+        .collection("Favourite")
+        .doc(dealId.toString())
+        .get();
+    if (myDoc == null || !myDoc.exists) {
+      return false;
+    } else {
+      return true;
+    }
 
-}
+  }
+
+  Future<void> addFav(int dealId) async {
+    final User user = auth.currentUser;
+    final uid = user.uid;
+    await FirebaseFirestore.instance
+        .collection('UserData')
+        .doc("$uid")
+        .collection("Favourite")
+        .doc(dealId.toString())
+        .set({
+      "DealId": dealId
+    });
+  }
+
+  Future<List<int>> removeFav(int dealId) async {
+    final User user = auth.currentUser;
+    final uid = user.uid;
+    await FirebaseFirestore.instance
+        .collection("UserData")
+        .doc("$uid")
+        .collection("Favourite")
+        .doc(dealId.toString())
+        .delete();
+  }
+
+  }

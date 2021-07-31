@@ -11,6 +11,10 @@ class RegisterScreen extends StatefulWidget {
   bool usernameEmpty = false;
   bool passwordEmpty = false;
   bool passwordInvalid = false;
+  bool nameEmpty = false;
+  bool mobileEmpty = false;
+  bool addressEmpty = false;
+  bool postcodeEmpty = false;
   bool verifyFailed = false;
 
   @override
@@ -25,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _mobileController = TextEditingController();
   final _addressController = TextEditingController();
   final _postcodeController = TextEditingController();
-  String country="";
+  String country="Malaysia";
 
 
   @override
@@ -49,10 +53,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _passwordController.text.isEmpty
           ? widget.passwordEmpty = true
           : widget.passwordEmpty = false;
+      _nameController.text.isEmpty
+          ? widget.nameEmpty = true
+          : widget.nameEmpty = false;
+      _mobileController.text.isEmpty
+          ? widget.mobileEmpty = true
+          : widget.mobileEmpty = false;
+      _addressController.text.isEmpty
+          ? widget.addressEmpty = true
+          : widget.addressEmpty = false;
+      _postcodeController.text.isEmpty
+          ? widget.postcodeEmpty = true
+          : widget.postcodeEmpty = false;
+      if (!widget.passwordEmpty && _passwordController.text.length < 6) {
+        widget.passwordInvalid = true;
+      }
+      else {
+        widget.passwordInvalid = false;
+      }
     });
-    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+
+    if (widget.usernameEmpty || widget.passwordEmpty || widget.passwordInvalid || widget.nameEmpty || widget.mobileEmpty || widget.addressEmpty || widget.postcodeEmpty) {
       return;
-    } else {
+    }
+     else {
       print(country);
       dynamic result = _auth.registerWithEmail(
           _usernameController.text,
@@ -67,13 +91,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (result == null) {
         // Error Signin Up
-        print("error signup");
         return;
       } else {
         // Signed Up
-        print("signedup");
-        print(result);
-
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -86,17 +106,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _handleGenderChange(String value) {
     setState(() {
       _genderRadioBtnVal = value;
-      print(_genderRadioBtnVal);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    // ]);
-    //
-    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return Scaffold(
       body: GestureDetector(
@@ -163,9 +177,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             helperText: widget.passwordEmpty
                                 ? "Required"
-                                : widget.verifyFailed
-                                    ? "Password or Username is invalid"
-                                    : "",
+                                : widget.passwordInvalid
+                                ? "Password must be at least 6 characters."
+                                : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),
@@ -185,13 +199,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperText: widget.nameEmpty ? "Required" : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),
                       ),
                     ),
 
+                    //Phone Number
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 2 * SizeConfig.widthMultiplier),
@@ -204,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperText: widget.mobileEmpty ? "Required" : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),
@@ -224,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperText: widget.addressEmpty ? "Required" : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),
@@ -244,7 +259,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                            helperText: widget.usernameEmpty ? "Required" : "",
+                            helperText: widget.postcodeEmpty ? "Required" : "",
                             helperStyle: TextStyle(color: Colors.red),
                           ),
                         ),

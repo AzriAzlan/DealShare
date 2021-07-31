@@ -1,19 +1,11 @@
-import 'package:dealshare/images.dart';
 import 'package:dealshare/screens/home_screen.dart';
 import 'package:dealshare/screens/profile_screen.dart';
 import 'package:dealshare/size_config.dart';
-import 'package:dealshare/widgets/deals.dart';
+import 'package:dealshare/widgets/favourite.dart';
 import 'package:flutter/material.dart';
 
 class SavedDeals extends StatelessWidget {
-  List<String> images = [
-    Images.nikeLogo,
-    Images.touchGo,
-    Images.starbucks,
-    Images.mcdetails,
-    Images.nikedetails,
-    Images.mcdonalds
-  ];
+
   int _selectedIndex = 1;
   final border =
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0));
@@ -30,7 +22,7 @@ class SavedDeals extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           automaticallyImplyLeading: false,
-          title: Text("Saved Deals"),
+          title: Text("My Favourites"),
           centerTitle: true,
         ),
 
@@ -38,7 +30,7 @@ class SavedDeals extends StatelessWidget {
           slivers: <Widget>[
             SliverPadding(
               padding: EdgeInsets.all(1.6 * SizeConfig.heightMultiplier),
-              sliver: Deals(),
+              sliver: Favourites(),
             ),
           ],
 

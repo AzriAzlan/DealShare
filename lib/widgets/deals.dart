@@ -72,10 +72,6 @@ class _DealsState extends State<Deals> {
         crossAxisCount: useMobileLayout ? 2 : 3,
         childAspectRatio: (itemWidth / itemHeight),
       ),
-      // crossAxisSpacing: 1.2 * SizeConfig.widthMultiplier,
-      // mainAxisSpacing: 1.2 * SizeConfig.widthMultiplier,
-      // crossAxisCount: 2,
-      // childAspectRatio: (itemWidth / itemHeight),
       delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
           return GestureDetector(

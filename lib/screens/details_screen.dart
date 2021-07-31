@@ -33,6 +33,8 @@ class _DetailsPageState extends State<DetailsPage> {
 
   List<DealData> data = [];
   var counter = 0;
+  Color _favColor = Colors.grey;
+
   void fetchData() {
     FirebaseFirestore.instance
         .collection("Deals")
@@ -120,7 +122,18 @@ class _DetailsPageState extends State<DetailsPage> {
                       SizedBox(
                         width: 42 * SizeConfig.widthMultiplier,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async{
+
+                            bool fav = await DatabaseService().checkFav(data[0].dealId);
+                            if (fav == true) {
+                              DatabaseService().removeFav(data[0].dealId);
+
+                            } else {
+                              DatabaseService().addFav(data[0].dealId);
+
+                            }
+
+                          },
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all<double>(0),
                             backgroundColor:
@@ -136,16 +149,19 @@ class _DetailsPageState extends State<DetailsPage> {
                           ),
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 2 * SizeConfig.heightMultiplier,
+                              SizedBox(
+                                width: 4.75 * SizeConfig.widthMultiplier,
+                              ),
+                              FittedBox(
+                                child: Text("Add to favourites"),
                               ),
                               SizedBox(
                                 width: 2 * SizeConfig.widthMultiplier,
                               ),
-                              FittedBox(
-                                child: Text("Add to favourites"),
+                              Icon(
+                                Icons.favorite,
+                                color: _favColor,
+                                size: 2 * SizeConfig.heightMultiplier,
                               ),
                             ],
                           ),
